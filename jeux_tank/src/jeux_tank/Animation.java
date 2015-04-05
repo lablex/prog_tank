@@ -24,6 +24,7 @@ public class Animation extends JPanel implements ActionListener, KeyListener {
     int[] X;
     int[] Y;
     Point[] tab;
+    int reglage_nb_point = 1050;
 
     public Animation() {
         tm.start();
@@ -59,11 +60,14 @@ public class Animation extends JPanel implements ActionListener, KeyListener {
         joueur.tank_gauche.setPointX((int) joueur.tank_gauche.getPointX() + joueur.vx);
         joueur.tank_droite.setPointX(joueur.tank_gauche.getPointX() + joueur.longueur_tank);
 
-        if (Y[(int) joueur.tank_droite.getPointX() * 1050] - Y[(int) joueur.tank_gauche.getPointX() * 1050] > 0) {
-            joueur.tank_gauche.setPointY(Y[(int) joueur.tank_gauche.getPointX() * 1050] - 105);
-        } else if (Y[(int) joueur.tank_droite.getPointX() * 1050] - Y[(int) joueur.tank_gauche.getPointX() * 1050] <= 0) {
-            joueur.tank_gauche.setPointY(Y[(int) joueur.tank_droite.getPointX() * 1050] - 105);
+        //Gestion des pentes
+        if (Y[(int) joueur.tank_droite.getPointX() * reglage_nb_point] - Y[(int) joueur.tank_gauche.getPointX() * reglage_nb_point] > 0) {
+            joueur.tank_gauche.setPointY(Y[(int) joueur.tank_gauche.getPointX() * reglage_nb_point] - 105);
+        } else if (Y[(int) joueur.tank_droite.getPointX() * reglage_nb_point] - Y[(int) joueur.tank_gauche.getPointX() * reglage_nb_point] <= 0) {
+            joueur.tank_gauche.setPointY(Y[(int) joueur.tank_droite.getPointX() * reglage_nb_point] - 105);
         }
+        
+        joueur.setAngleTank(this.getAngle());
         repaint();
     }
 
@@ -86,9 +90,9 @@ public class Animation extends JPanel implements ActionListener, KeyListener {
             joueur.vy = 10;
         }
         if (c == KeyEvent.VK_S) {
-            if (joueur.angle != 30) {
-                joueur.angle = joueur.angle + 5;
-            }
+
+            joueur.angle = joueur.angle + 5;
+
         }
         if (c == KeyEvent.VK_Z) {
             if (joueur.angle != -90) {
@@ -105,4 +109,12 @@ public class Animation extends JPanel implements ActionListener, KeyListener {
         joueur.vx = 0;
         joueur.vy = 0;
     }
+
+    public double getAngle() {
+        double angle1 = Math.atan2(tab[(int) joueur.tank_droite.getPointX() * reglage_nb_point].getPointY() - tab[(int) joueur.tank_gauche.getPointX() * 1050].getPointY(),
+                tab[(int) joueur.tank_droite.getPointX() * reglage_nb_point].getPointX() - tab[(int) joueur.tank_gauche.getPointX() * 1050].getPointX());
+        double angle2 = Math.atan2(0, 0);
+        return Math.toDegrees(angle1 - angle2);
+    }
+
 }

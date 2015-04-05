@@ -20,13 +20,14 @@ public class Tank {
     int x = 0, y = 0, vx = 1, vy = 1, angle = 0;
     Point tank_gauche;
     Point tank_droite;
+    double angle_tank;
     protected final int longueur_tank;
     protected final int distance_tank_canon;
     
     public Tank() {
         tank_gauche = new Point(0,0);
         tank_droite = new Point(0,0);
-        longueur_tank = 30;
+        longueur_tank = 35;
         distance_tank_canon = 30;
     }
 
@@ -39,6 +40,10 @@ public class Tank {
         g2.drawImage(image, 0, 0, null);
         g2.dispose();
         return temp;
+    }
+    
+    public void setAngleTank(double angle_tank){
+        this.angle_tank = angle_tank;
     }
 
 }
