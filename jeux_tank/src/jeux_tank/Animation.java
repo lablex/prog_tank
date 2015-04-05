@@ -21,12 +21,15 @@ public class Animation extends JPanel implements ActionListener, KeyListener {
     Timer tm = new Timer(5, this);
     Tank joueur = new Tank();
     Terrain terrain = new Terrain();
-    int[] X = new int[terrain.getNbPoint()];
-    int[] Y = new int[terrain.getNbPoint()];
-    Point[] tab = terrain.getTab();
+    int[] X;
+    int[] Y;
+    Point[] tab;
 
     public Animation() {
         tm.start();
+        X = new int[terrain.getNbPoint()];
+        Y = new int[terrain.getNbPoint()];
+        tab = terrain.getTab();
         for (int i = 0; i < terrain.getNbPoint(); i++) {
             X[i] = (int) tab[i].getPointX();
             Y[i] = (int) tab[i].getPointY();
@@ -37,13 +40,13 @@ public class Animation extends JPanel implements ActionListener, KeyListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        if (joueur.x <= 0) {
+        if (joueur.tank_gauche.getPointX() <= 0) {
             joueur.vx = 0;
-            joueur.x = 10;
+            joueur.tank_gauche.setPointX(5);
         }
-        if (joueur.x > 970) {
+        if (joueur.tank_gauche.getPointX() >= 950) {
             joueur.vx = 0;
-            joueur.x = 970;
+            joueur.tank_gauche.setPointX(945);
         }
         if (joueur.y < 0) {
             joueur.vy = 0;
@@ -53,9 +56,14 @@ public class Animation extends JPanel implements ActionListener, KeyListener {
             joueur.vy = 0;
             joueur.y = 700;
         }
-        joueur.x = joueur.x + joueur.vx;
-        joueur.y = Y[joueur.x * 1050] - 105;
+        joueur.tank_gauche.setPointX((int) joueur.tank_gauche.getPointX() + joueur.vx);
+        joueur.tank_droite.setPointX(joueur.tank_gauche.getPointX() + joueur.longueur_tank);
 
+        if (Y[(int) joueur.tank_droite.getPointX() * 1050] - Y[(int) joueur.tank_gauche.getPointX() * 1050] > 0) {
+            joueur.tank_gauche.setPointY(Y[(int) joueur.tank_gauche.getPointX() * 1050] - 105);
+        } else if (Y[(int) joueur.tank_droite.getPointX() * 1050] - Y[(int) joueur.tank_gauche.getPointX() * 1050] <= 0) {
+            joueur.tank_gauche.setPointY(Y[(int) joueur.tank_droite.getPointX() * 1050] - 105);
+        }
         repaint();
     }
 

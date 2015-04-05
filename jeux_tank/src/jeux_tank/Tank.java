@@ -18,9 +18,14 @@ public class Tank {
     private static final long serialVersionUID = 1L;
 
     int x = 0, y = 0, vx = 1, vy = 1, angle = 0;
-
+    Point tank_gauche;
+    Point tank_droite;
+    int longueur_tank;
+    
     public Tank() {
-
+        tank_gauche = new Point(0,0);
+        tank_droite = new Point(0,0);
+        longueur_tank = 30;
     }
 
     public BufferedImage rotationImage(Image image, double degs) {
