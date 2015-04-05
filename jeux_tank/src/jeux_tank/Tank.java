@@ -17,16 +17,18 @@ public class Tank {
 
     private static final long serialVersionUID = 1L;
 
-    int x = 0, y = 0, vx = 1, vy = 1, angle = 0;
+    int x = 0, y = 0, vx = 1, vy = 1;
     Point tank_gauche;
     Point tank_droite;
-    double angle_tank;
+    Point canon;
+    double angle_tank,angle_canon=0;
     protected final int longueur_tank;
     protected final int distance_tank_canon;
-    
+
     public Tank() {
-        tank_gauche = new Point(0,0);
-        tank_droite = new Point(0,0);
+        tank_gauche = new Point(0, 0);
+        tank_droite = new Point(0, 0);
+        canon = new Point(0, 0);
         longueur_tank = 35;
         distance_tank_canon = 30;
     }
@@ -42,8 +44,20 @@ public class Tank {
         return temp;
     }
     
-    public void setAngleTank(double angle_tank){
+    public void setAngleCanon(double angle_canon){
+        this.angle_canon = angle_canon;
+    }
+    
+    public double getAngleCanon(){
+        return this.angle_canon;
+    }
+    
+    public void setAngleTank(double angle_tank) {
         this.angle_tank = angle_tank;
+    }
+    
+    public double getAngleTank(){
+        return this.angle_tank;
     }
 
 }

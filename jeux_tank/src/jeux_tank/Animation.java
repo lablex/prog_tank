@@ -25,6 +25,7 @@ public class Animation extends JPanel implements ActionListener, KeyListener {
     int[] Y;
     Point[] tab;
     int reglage_nb_point = 1050;
+    int offset_tank_terrain = 68;
 
     public Animation() {
         tm.start();
@@ -62,12 +63,14 @@ public class Animation extends JPanel implements ActionListener, KeyListener {
 
         //Gestion des pentes
         if (Y[(int) joueur.tank_droite.getPointX() * reglage_nb_point] - Y[(int) joueur.tank_gauche.getPointX() * reglage_nb_point] > 0) {
-            joueur.tank_gauche.setPointY(Y[(int) joueur.tank_gauche.getPointX() * reglage_nb_point] - 105);
+            joueur.tank_gauche.setPointY(Y[(int) joueur.tank_gauche.getPointX() * reglage_nb_point] - offset_tank_terrain);
         } else if (Y[(int) joueur.tank_droite.getPointX() * reglage_nb_point] - Y[(int) joueur.tank_gauche.getPointX() * reglage_nb_point] <= 0) {
-            joueur.tank_gauche.setPointY(Y[(int) joueur.tank_droite.getPointX() * reglage_nb_point] - 105);
+            joueur.tank_gauche.setPointY(Y[(int) joueur.tank_droite.getPointX() * reglage_nb_point] - offset_tank_terrain);
         }
-        
+        //Rotation lors des pentes
         joueur.setAngleTank(this.getAngle());
+        joueur.canon.setPointX(joueur.tank_gauche.getPointX() - 25 + joueur.angle_tank * 0.4); //coefficients déterminés expérimentalement
+        joueur.canon.setPointY(joueur.tank_gauche.getPointY() - 30 - joueur.angle_tank * 0.15); //coefficients déterminés expérimentalement
         repaint();
     }
 
@@ -90,13 +93,14 @@ public class Animation extends JPanel implements ActionListener, KeyListener {
             joueur.vy = 10;
         }
         if (c == KeyEvent.VK_S) {
-
-            joueur.angle = joueur.angle + 5;
+            if (joueur.getAngleCanon() != 30) {
+                joueur.setAngleCanon(joueur.getAngleCanon() + 5);
+            }
 
         }
         if (c == KeyEvent.VK_Z) {
-            if (joueur.angle != -90) {
-                joueur.angle = joueur.angle - 5;
+            if (joueur.getAngleCanon() != -90) {
+                joueur.setAngleCanon(joueur.getAngleCanon() - 5);
             }
         }
     }
@@ -111,8 +115,8 @@ public class Animation extends JPanel implements ActionListener, KeyListener {
     }
 
     public double getAngle() {
-        double angle1 = Math.atan2(tab[(int) joueur.tank_droite.getPointX() * reglage_nb_point].getPointY() - tab[(int) joueur.tank_gauche.getPointX() * 1050].getPointY(),
-                tab[(int) joueur.tank_droite.getPointX() * reglage_nb_point].getPointX() - tab[(int) joueur.tank_gauche.getPointX() * 1050].getPointX());
+        double angle1 = Math.atan2(tab[(int) joueur.tank_droite.getPointX() * reglage_nb_point].getPointY() - tab[(int) joueur.tank_gauche.getPointX() * reglage_nb_point].getPointY(),
+                tab[(int) joueur.tank_droite.getPointX() * reglage_nb_point].getPointX() - tab[(int) joueur.tank_gauche.getPointX() * reglage_nb_point].getPointX());
         double angle2 = Math.atan2(0, 0);
         return Math.toDegrees(angle1 - angle2);
     }
