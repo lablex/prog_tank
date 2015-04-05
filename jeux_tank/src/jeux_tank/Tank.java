@@ -20,15 +20,17 @@ public class Tank {
     int x = 0, y = 0, vx = 1, vy = 1, angle = 0;
     Point tank_gauche;
     Point tank_droite;
-    int longueur_tank;
+    protected final int longueur_tank;
+    protected final int distance_tank_canon;
     
     public Tank() {
         tank_gauche = new Point(0,0);
         tank_droite = new Point(0,0);
         longueur_tank = 30;
+        distance_tank_canon = 30;
     }
 
-    public BufferedImage rotationImage(Image image, double degs) {
+    public BufferedImage rotationTank(Image image, double degs) {
         int width = image.getWidth(null);
         int height = image.getHeight(null);
         BufferedImage temp = new BufferedImage(height, width, BufferedImage.TYPE_INT_ARGB);
