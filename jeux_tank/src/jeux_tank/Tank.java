@@ -19,18 +19,16 @@ public class Tank {
 
     int x = 0, y = 0, vx = 1, vy = 1;
     Point tank_gauche;
-    Point tank_droite;
+    Point tank_droit;
     Point canon;
     double angle_tank,angle_canon=0;
     protected final int longueur_tank;
-    protected final int distance_tank_canon;
 
     public Tank() {
         tank_gauche = new Point(0, 0);
-        tank_droite = new Point(0, 0);
+        tank_droit = new Point(0, 0);
         canon = new Point(0, 0);
         longueur_tank = 35;
-        distance_tank_canon = 30;
     }
 
     public BufferedImage rotationTank(Image image, double degs) {
@@ -58,6 +56,18 @@ public class Tank {
     
     public double getAngleTank(){
         return this.angle_tank;
+    }
+    
+    public Point getTankPointGauche(){
+        return this.tank_gauche;
+    }
+    
+    public Point getTankPointDroit(){
+        return this.tank_droit;
+    }
+    
+    public Point getCanon(){
+        return this.canon;
     }
 
 }

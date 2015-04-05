@@ -15,13 +15,14 @@ class Draw extends Animation {
         super.paintComponent(g);
         Image tank = new ImageIcon(IMAGE_PATH_tank).getImage();
         Image canon = new ImageIcon(IMAGE_PATH_canon).getImage();
+        //Dessin Terrain
         g.translate(250, 50);
         g.drawPolyline(X, Y, terrain.getNbPoint());
         g.drawRect(0, 0, 1000, 700);
-        //Dessin tank
-        g.drawImage(joueur.rotationTank(tank, joueur.getAngleTank()), (int)joueur.tank_gauche.getPointX()-espace_vide_image,(int) joueur.tank_gauche.getPointY(), taille_image, taille_image, this);
-        //Dessin canon
-        g.drawImage(joueur.rotationTank(joueur.rotationTank(canon, joueur.getAngleCanon()),joueur.getAngleTank()), (int)joueur.canon.getPointX(),(int) joueur.canon.getPointY(), taille_image, taille_image, this);
+        //Dessin Tank
+        g.drawImage(joueur.rotationTank(tank, joueur.getAngleTank()), (int) joueur.getTankPointGauche().getPointX() - espace_vide_image, (int) joueur.getTankPointGauche().getPointY(), taille_image, taille_image, this);
+        //Dessin Canon
+        g.drawImage(joueur.rotationTank(joueur.rotationTank(canon, joueur.getAngleCanon()), joueur.getAngleTank()), (int) joueur.getCanon().getPointX(), (int) joueur.getCanon().getPointY(), taille_image, taille_image, this);
     }
 
 }
