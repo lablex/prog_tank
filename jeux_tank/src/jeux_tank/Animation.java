@@ -29,6 +29,7 @@ public class Animation extends JPanel implements ActionListener, KeyListener {
 
     public Animation() {
         tm.start();
+        //Initialisation des variables pour la création du terrain
         X = new int[terrain.getNbPoint()];
         Y = new int[terrain.getNbPoint()];
         tab = terrain.getTab();
@@ -36,6 +37,7 @@ public class Animation extends JPanel implements ActionListener, KeyListener {
             X[i] = (int) tab[i].getPointX();
             Y[i] = (int) tab[i].getPointY();
         }
+        //Listeners
         addKeyListener(this);
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
@@ -54,11 +56,10 @@ public class Animation extends JPanel implements ActionListener, KeyListener {
             joueur.vy = 0;
             joueur.y = 0;
         }
-        if (joueur.y > 700) {
+        if (joueur.y > 990) {
             joueur.vy = 0;
-            joueur.y = 700;
+            joueur.y = 980;
         }
-
         gestion_rotation_pente();
         repaint();
     }
@@ -76,28 +77,37 @@ public class Animation extends JPanel implements ActionListener, KeyListener {
         //Gestion des pentes
         joueur.getTankPointGauche().setPointX((int) joueur.getTankPointGauche().getPointX() + joueur.vx);
         joueur.getTankPointDroit().setPointX(joueur.getTankPointGauche().getPointX() + joueur.longueur_tank);
+        double angle = this.getAngle();
         if (Y[(int) joueur.getTankPointDroit().getPointX() * reglage_nb_point] - Y[(int) joueur.getTankPointGauche().getPointX() * reglage_nb_point] > 0) {
             joueur.getTankPointGauche().setPointY(Y[(int) joueur.getTankPointGauche().getPointX() * reglage_nb_point] - offset_tank_terrain);
         } else if (Y[(int) joueur.getTankPointDroit().getPointX() * reglage_nb_point] - Y[(int) joueur.getTankPointGauche().getPointX() * reglage_nb_point] <= 0) {
             joueur.getTankPointGauche().setPointY(Y[(int) joueur.getTankPointDroit().getPointX() * reglage_nb_point] - offset_tank_terrain);
         }
-        //Rotation lors des pentes
+        //Rotation du tank et du canon lors des pentes
         Point tankPosCenter = new Point(joueur.getTankPointGauche().getPointX() + 17.5, joueur.getTankPointGauche().getPointY() + 50);
         Point gunPosCenter = new Point(joueur.getTankPointGauche().getPointX() + 19, joueur.getTankPointGauche().getPointY() + 18);
         dx = tankPosCenter.getPointX() - gunPosCenter.getPointX();
         dy = tankPosCenter.getPointY() - gunPosCenter.getPointY();
         dis = Math.sqrt(dx * dx + dy * dy);
-        gunX_offset = dis * Math.cos(Math.toRadians(this.getAngle() + 100));
-        gunY_offset = dis * Math.sin(Math.toRadians(this.getAngle() + 100));
+        gunX_offset = dis * Math.cos(Math.toRadians(angle + 100));
+        gunY_offset = dis * Math.sin(Math.toRadians(angle + 100));
         gunXHalf = 50;
         gunYHalf = 50;
-        positionX = (tankPosCenter.getPointX() - gunX_offset) - gunXHalf;
-        positionY = (tankPosCenter.getPointY() - gunY_offset) - gunYHalf;
-        joueur.setAngleTank(this.getAngle());
+        //Suppression de la rotation dans les cas de grandes chutes
+        if (angle > 25) { // Cas à optimiser en plaçant un nouveau point sur le tank
+            positionX = (tankPosCenter.getPointX() - 0) - gunXHalf;
+            positionY = (tankPosCenter.getPointY() - 32) - gunYHalf;
+            joueur.setAngleTank(0);
+        } else {
+            positionX = (tankPosCenter.getPointX() - gunX_offset) - gunXHalf;
+            positionY = (tankPosCenter.getPointY() - gunY_offset) - gunYHalf;
+            joueur.setAngleTank(this.getAngle());
+        }
         joueur.getCanon().setPointX(positionX);
         joueur.getCanon().setPointY(positionY);
     }
-
+    
+    //Récupère l'angle de rotation du tank
     public double getAngle() {
         double angle1 = Math.atan2(tab[(int) joueur.getTankPointDroit().getPointX() * reglage_nb_point].getPointY() - tab[(int) joueur.getTankPointGauche().getPointX() * reglage_nb_point].getPointY(),
                 tab[(int) joueur.getTankPointDroit().getPointX() * reglage_nb_point].getPointX() - tab[(int) joueur.getTankPointGauche().getPointX() * reglage_nb_point].getPointX());
@@ -124,9 +134,7 @@ public class Animation extends JPanel implements ActionListener, KeyListener {
             joueur.vy = 10;
         }
         if (c == KeyEvent.VK_S) {
-            if (joueur.getAngleCanon() != 30) {
-                joueur.setAngleCanon(joueur.getAngleCanon() + 5);
-            }
+            joueur.setAngleCanon(joueur.getAngleCanon() + 5);
 
         }
         if (c == KeyEvent.VK_Z) {
