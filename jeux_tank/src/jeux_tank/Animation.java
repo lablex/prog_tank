@@ -26,6 +26,9 @@ public class Animation extends JPanel implements ActionListener, KeyListener {
     Point[] tab;
     int reglage_nb_point = 1050;
     int offset_tank_terrain = 50;
+    //Point (à enlever) pour reperer l'extremité du canon
+    double extremite_canon_x;
+    double extremite_canon_y;
 
     public Animation() {
         tm.start();
@@ -61,19 +64,29 @@ public class Animation extends JPanel implements ActionListener, KeyListener {
             joueur.y = 980;
         }
         gestion_rotation_pente();
+        //joueur.getTankExtremiteCanon().setPointX(10);
+        //joueur.getTankExtremiteCanon().setPointY(10);
+        //recup_extremite();
         repaint();
     }
 
     public void gestion_rotation_pente() {
         double dx;
         double dy;
+        double dx2;
+        double dy2;
         double dis;
+        double dis2;
         double gunX_offset;
         double gunY_offset;
+        double gunX_offset2;
+        double gunY_offset2;
         double gunXHalf;
         double gunYHalf;
         double positionX;
         double positionY;
+        double positionX2;
+        double positionY2;
         //Gestion des pentes
         joueur.getTankPointGauche().setPointX((int) joueur.getTankPointGauche().getPointX() + joueur.vx);
         joueur.getTankPointDroit().setPointX(joueur.getTankPointGauche().getPointX() + joueur.longueur_tank);
@@ -90,24 +103,37 @@ public class Animation extends JPanel implements ActionListener, KeyListener {
         }
         Point tankPosCenter = new Point(joueur.getTankPointGauche().getPointX() + joueur.longueur_tank - joueur.longueur_tank / 2, joueur.getTankPointGauche().getPointY() + 37);
         Point gunPosCenter = new Point(joueur.getTankPointGauche().getPointX() + joueur.longueur_tank - joueur.longueur_tank / 2, joueur.getTankPointGauche().getPointY() + 13);
+        Point gunPosExtremite = new Point(joueur.getTankPointGauche().getPointX() + joueur.longueur_tank - joueur.longueur_tank / 2+31,joueur.getTankPointGauche().getPointY() + 13);
         dx = tankPosCenter.getPointX() - gunPosCenter.getPointX();
         dy = tankPosCenter.getPointY() - gunPosCenter.getPointY();
+        dx2 = tankPosCenter.getPointX() - gunPosExtremite.getPointX();
+        dy2 = tankPosCenter.getPointY() - gunPosExtremite.getPointY();
         dis = Math.sqrt(dx * dx + dy * dy);
+        dis2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
         gunX_offset = dis * Math.cos(Math.toRadians(angle_monte + 99));
         gunY_offset = dis * Math.sin(Math.toRadians(angle_monte + 99));
+        gunX_offset2 = dis2 * Math.cos(Math.toRadians(angle_monte + 140));
+        gunY_offset2 = dis2 * Math.sin(Math.toRadians(angle_monte + 140));
         gunXHalf = 38;
         gunYHalf = 36;
+
         //Rotation du canon par rapport au tank
         if (angle_monte > 0) { // Cas d'une descente
             gunX_offset = dis * Math.cos(Math.toRadians(angle_descente + 103));
+            gunX_offset2 = dis2 * Math.cos(Math.toRadians(angle_descente + 103+41));
             gunY_offset = dis * Math.sin(Math.toRadians(angle_descente + 103));
+            gunY_offset2 = dis2 * Math.sin(Math.toRadians(angle_descente + 103+41));
             positionX = (tankPosCenter.getPointX() - gunX_offset) - gunXHalf;
             positionY = (tankPosCenter.getPointY() - gunY_offset) - gunYHalf;
+            positionX2 = (tankPosCenter.getPointX()- gunX_offset2) - gunXHalf;
+            positionY2 = (tankPosCenter.getPointY()- gunY_offset2) - gunYHalf;
             joueur.setAngleTank(angle_descente);
 
         } else { // Cas d'une montée
             positionX = (tankPosCenter.getPointX() - gunX_offset) - gunXHalf;
             positionY = (tankPosCenter.getPointY() - gunY_offset) - gunYHalf;
+            positionX2 = (tankPosCenter.getPointX() - gunX_offset2) - gunXHalf;
+            positionY2 = (tankPosCenter.getPointY() - gunY_offset2) - gunYHalf;
             joueur.setAngleTank(angle_monte);
         }
         if (angle_monte > 25) { // Cas des chutes => annulation de la rotation
@@ -117,10 +143,29 @@ public class Animation extends JPanel implements ActionListener, KeyListener {
             gunY_offset = 23;
             positionX = (tankPosCenter.getPointX() - gunX_offset) - gunXHalf;
             positionY = (tankPosCenter.getPointY() - gunY_offset) - gunYHalf;
+            gunX_offset2 = -5;
+            gunY_offset2 = 23;
+            positionX2 = (tankPosCenter.getPointX() - gunX_offset) - gunXHalf;
+            positionY2 = (tankPosCenter.getPointY() - gunY_offset) - gunYHalf;
             joueur.setAngleTank(0);
         }
-        joueur.getCanon().setPointX(positionX);
-        joueur.getCanon().setPointY(positionY);
+        
+        joueur.getCentreCanon().setPointX(positionX);
+        joueur.getCentreCanon().setPointY(positionY);
+        double centre_canon_x = joueur.getCentreCanon().getPointX()+38;
+        double centre_canon_y = joueur.getCentreCanon().getPointY()+36;
+        
+        joueur.getTankExtremiteCanon().setPointX(positionX2);
+        joueur.getTankExtremiteCanon().setPointY(positionY2);
+        this.extremite_canon_x = joueur.getTankExtremiteCanon().getPointX()+38;
+        this.extremite_canon_y = joueur.getTankExtremiteCanon().getPointY()+36;
+        
+        positionX2 = centre_canon_x + (this.extremite_canon_x-centre_canon_x)*Math.cos(Math.toRadians(joueur.getAngleCanon())) - (this.extremite_canon_y-centre_canon_y)*Math.sin(Math.toRadians(joueur.getAngleCanon()));
+        positionY2 = centre_canon_y + (this.extremite_canon_x-centre_canon_x)*Math.sin(Math.toRadians(joueur.getAngleCanon())) + (this.extremite_canon_y-centre_canon_y)*Math.cos(Math.toRadians(joueur.getAngleCanon()));
+        joueur.getTankExtremiteCanon().setPointX(positionX2);
+        joueur.getTankExtremiteCanon().setPointY(positionY2);
+        this.extremite_canon_x = joueur.getTankExtremiteCanon().getPointX();
+        this.extremite_canon_y = joueur.getTankExtremiteCanon().getPointY();
     }
 
     //Récupère l'angle entre les deux points du tanks
@@ -132,7 +177,7 @@ public class Animation extends JPanel implements ActionListener, KeyListener {
     public void keyPressed(KeyEvent e) {
         int c = e.getKeyCode();
         if (c == KeyEvent.VK_LEFT) {
-            joueur.vx = -2;
+            joueur.vx = -3;
             joueur.vy = 0;
         }
         if (c == KeyEvent.VK_UP) {
@@ -140,7 +185,7 @@ public class Animation extends JPanel implements ActionListener, KeyListener {
             joueur.vy = -10;
         }
         if (c == KeyEvent.VK_RIGHT) {
-            joueur.vx = 2;
+            joueur.vx = 3;
             joueur.vy = 0;
         }
         if (c == KeyEvent.VK_DOWN) {

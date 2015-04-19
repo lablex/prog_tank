@@ -20,10 +20,12 @@ class Draw extends Animation {
         g.translate(250, 50);
         g.drawPolyline(X, Y, terrain.getNbPoint());
         g.drawRect(0, 0, 1000, 700);
+        //Extremité du Canon
+        g.drawLine(0,0,(int)(extremite_canon_x),(int)(extremite_canon_y));
         //Dessin Tank
         g.drawImage(joueur.rotationImage(tank, joueur.getAngleTank()), (int) joueur.getTankPointGauche().getPointX() - espace_vide_image, (int) joueur.getTankPointGauche().getPointY(), taille_image, taille_image, this);
         //Dessin Canon
-        g.drawImage(joueur.rotationImage(joueur.rotationImage(canon, joueur.getAngleCanon()), joueur.getAngleTank()), (int) joueur.getCanon().getPointX(), (int) joueur.getCanon().getPointY(), taille_image, taille_image, this);
+        g.drawImage(joueur.rotationImage(joueur.rotationImage(canon, joueur.getAngleCanon()), joueur.getAngleTank()), (int) joueur.getCentreCanon().getPointX(), (int) joueur.getCentreCanon().getPointY(), taille_image, taille_image, this);
     
   
 

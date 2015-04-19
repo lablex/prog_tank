@@ -23,6 +23,7 @@ public class Tank {
     Point canon;
     Point tank_56; // Point à 5/6 (axe des X) du tank
     Point tank_113; // Point à 1/15 (axe des X) du tank 
+    Point extremite_canon; // Point à 1/15 (axe des X) du tank 
     double angle_tank,angle_canon=0;
     protected final int longueur_tank;
 
@@ -32,6 +33,7 @@ public class Tank {
         tank_56 = new Point(0,0);
         tank_113 = new Point(0,0);
         canon = new Point(0, 0);
+        extremite_canon = new Point(0, 0);
         longueur_tank = 30;
     }
 
@@ -70,7 +72,7 @@ public class Tank {
         return this.tank_droit;
     }
     
-    public Point getCanon(){
+    public Point getCentreCanon(){
         return this.canon;
     }
     
@@ -80,6 +82,10 @@ public class Tank {
     
     public Point getTankPoint113(){
         return this.tank_113;
+    }
+    
+    public Point getTankExtremiteCanon(){
+        return this.extremite_canon;
     }
 
 }
