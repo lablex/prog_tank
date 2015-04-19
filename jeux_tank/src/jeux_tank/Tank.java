@@ -21,17 +21,21 @@ public class Tank {
     Point tank_gauche;
     Point tank_droit;
     Point canon;
+    Point tank_56; // Point à 5/6 (axe des X) du tank
+    Point tank_113; // Point à 1/15 (axe des X) du tank 
     double angle_tank,angle_canon=0;
     protected final int longueur_tank;
 
     public Tank() {
         tank_gauche = new Point(0, 0);
         tank_droit = new Point(0, 0);
+        tank_56 = new Point(0,0);
+        tank_113 = new Point(0,0);
         canon = new Point(0, 0);
-        longueur_tank = 35;
+        longueur_tank = 30;
     }
 
-    public BufferedImage rotationTank(Image image, double degs) {
+    public BufferedImage rotationImage(Image image, double degs) {
         int width = image.getWidth(null);
         int height = image.getHeight(null);
         BufferedImage temp = new BufferedImage(height, width, BufferedImage.TYPE_INT_ARGB);
@@ -68,6 +72,14 @@ public class Tank {
     
     public Point getCanon(){
         return this.canon;
+    }
+    
+    public Point getTankPoint56(){
+        return this.tank_56;
+    }
+    
+    public Point getTankPoint113(){
+        return this.tank_113;
     }
 
 }
