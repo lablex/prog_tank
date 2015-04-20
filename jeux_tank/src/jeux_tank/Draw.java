@@ -21,7 +21,7 @@ class Draw extends Animation {
         g.drawPolyline(X, Y, terrain.getNbPoint());
         g.drawRect(0, 0, 1000, 700);
         //Extremité du Canon
-        g.drawLine(0,0,(int)(extremite_canon_x),(int)(extremite_canon_y));
+        g.drawLine(0,0,(int)(joueur.getTankExtremiteCanon().getPointX()),(int)(joueur.getTankExtremiteCanon().getPointY()));
         //Dessin Tank
         g.drawImage(joueur.rotationImage(tank, joueur.getAngleTank()), (int) joueur.getTankPointGauche().getPointX() - espace_vide_image, (int) joueur.getTankPointGauche().getPointY(), taille_image, taille_image, this);
         //Dessin Canon
