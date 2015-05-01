@@ -9,10 +9,6 @@ package jeux_tank;
  *
  * @author Kevin
  */
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-
 public class Tank {
 
     private static final long serialVersionUID = 1L;
@@ -22,69 +18,58 @@ public class Tank {
     Point tank_droit;
     Point canon;
     Point tank_56; // Point à 5/6 (axe des X) du tank
-    Point tank_113; // Point à 1/15 (axe des X) du tank 
+    Point tank_113; // Point à 1/13 (axe des X) du tank 
     Point extremite_canon; // Point à 1/15 (axe des X) du tank 
-    double angle_tank,angle_canon=0;
+    double angle_tank, angle_canon = 0;
     protected final int longueur_tank;
 
     public Tank() {
         tank_gauche = new Point(0, 0);
         tank_droit = new Point(0, 0);
-        tank_56 = new Point(0,0);
-        tank_113 = new Point(0,0);
+        tank_56 = new Point(0, 0);
+        tank_113 = new Point(0, 0);
         canon = new Point(0, 0);
         extremite_canon = new Point(0, 0);
         longueur_tank = 30;
     }
 
-    public BufferedImage rotationImage(Image image, double degs) {
-        int width = image.getWidth(null);
-        int height = image.getHeight(null);
-        BufferedImage temp = new BufferedImage(height, width, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2 = temp.createGraphics();
-        g2.rotate(Math.toRadians(degs), height / 2, height / 2); // Réglage de l'angle
-        g2.drawImage(image, 0, 0, null);
-        g2.dispose();
-        return temp;
-    }
-    
-    public void setAngleCanon(double angle_canon){
+    public void setAngleCanon(double angle_canon) {
         this.angle_canon = angle_canon;
     }
-    
-    public double getAngleCanon(){
+
+    public double getAngleCanon() {
         return this.angle_canon;
     }
-    
+
     public void setAngleTank(double angle_tank) {
         this.angle_tank = angle_tank;
     }
-    
-    public double getAngleTank(){
+
+    public double getAngleTank() {
         return this.angle_tank;
     }
-    
-    public Point getTankPointGauche(){
+
+    public Point getTankPointGauche() {
         return this.tank_gauche;
     }
-    
-    public Point getTankPointDroit(){
+
+    public Point getTankPointDroit() {
         return this.tank_droit;
     }
-    
-    public Point getCentreCanon(){
+
+    public Point getCentreCanon() {
         return this.canon;
     }
-    
-    public Point getTankPoint56(){
+
+    public Point getTankPoint56() {
         return this.tank_56;
     }
-    
-    public Point getTankPoint113(){
+
+    public Point getTankPoint113() {
         return this.tank_113;
     }
-    
-    public Point getTankExtremiteCanon(){
+
+    public Point getTankExtremiteCanon() {
         return this.extremite_canon;
     }
 
