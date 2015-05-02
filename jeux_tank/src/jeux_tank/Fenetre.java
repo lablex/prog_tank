@@ -23,10 +23,10 @@ public class Fenetre extends JFrame {
         this.setTitle("tank");
         this.setSize(10000, 10000);
         //Ajout des listeners
-        addKeyListener(new TankKeyListener(joueur));
-        addKeyListener(new TankKeyListener(IA));
-        pan = new TankActionListener(joueur, X, Y, terrain, tab);
-        pan = new TankActionListener(IA, X, Y, terrain, tab);
+        addKeyListener(new DeplacementTank(joueur));
+        addKeyListener(new DeplacementTank(IA));
+        pan = new Animation(joueur, X, Y, terrain, tab);
+        pan = new Animation(IA, X, Y, terrain, tab);
         this.add(pan);
 
         //Listeners

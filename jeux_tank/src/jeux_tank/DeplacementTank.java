@@ -13,11 +13,11 @@ import javax.swing.JPanel;
  *
  * @author Kevin
  */
-public class TankKeyListener extends JPanel implements KeyListener {
+public class DeplacementTank extends JPanel implements KeyListener {
 
     Tank joueur;
 
-    public TankKeyListener(Tank joueur) {
+    public DeplacementTank(Tank joueur) {
         this.joueur = joueur;
     }
 

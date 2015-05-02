@@ -19,7 +19,7 @@ import javax.swing.JPanel;
  *
  * @author Kevin
  */
-public class TankActionListener extends JPanel implements ActionListener {
+public class Animation extends JPanel implements ActionListener {
 
     // rafraichissement du Tank tous les 5ms
     Timer tm = new Timer(5, this);
@@ -34,8 +34,7 @@ public class TankActionListener extends JPanel implements ActionListener {
 
     //Variables concernant le tank
     Tank joueur;
-    double angle_monte;
-    double angle_descente;
+    double angle;
     double dx;
     double dy;
     double dis;
@@ -55,7 +54,7 @@ public class TankActionListener extends JPanel implements ActionListener {
     private final int taille_image = 75;
 
     // Constructeur de la classe
-    public TankActionListener(Tank joueur, int[] X, int[] Y, Terrain terrain, Point[] tab) {
+    public Animation(Tank joueur, int[] X, int[] Y, Terrain terrain, Point[] tab) {
         this.joueur = joueur;
         this.Y = Y;
         this.X = X;
@@ -74,29 +73,19 @@ public class TankActionListener extends JPanel implements ActionListener {
 
     //Initialisation des angles
     public void initialisation_angles() {
-        angle_monte = Point.getAngle(Math.atan2(tab[(int) joueur.getTankPointDroit().getPointX() * reglage_nb_point].getPointY() - tab[(int) joueur.getTankPointGauche().getPointX() * reglage_nb_point].getPointY(),
+        angle = Point.getAngle(Math.atan2(tab[(int) joueur.getTankPoint113().getPointX() * reglage_nb_point].getPointY() - tab[(int) joueur.getTankPointGauche().getPointX() * reglage_nb_point].getPointY(),
                 tab[(int) joueur.getTankPoint113().getPointX() * reglage_nb_point].getPointX() - tab[(int) joueur.getTankPointGauche().getPointX() * reglage_nb_point].getPointX()));
-        angle_descente = Point.getAngle(Math.atan2(tab[(int) joueur.getTankPoint56().getPointX() * reglage_nb_point].getPointY() - tab[(int) joueur.getTankPointGauche().getPointX() * reglage_nb_point].getPointY(),
-                tab[(int) joueur.getTankPoint56().getPointX() * reglage_nb_point].getPointX() - tab[(int) joueur.getTankPointGauche().getPointX() * reglage_nb_point].getPointX()));
     }
 
     //Gere la rotation du tank sur une pente
     public void gestion_rotation_pente(Point tankPosCenter, double angle_offset_descente, double angle_offset_monte, double gunX_offset2, double gunY_offset2) {
-        if (angle_monte > 0) { // Cas d'une descente
-            gunX_offset = dis * Math.cos(Math.toRadians(angle_descente + angle_offset_descente));
-            gunY_offset = dis * Math.sin(Math.toRadians(angle_descente + angle_offset_descente));
-            positionX = (tankPosCenter.getPointX() - gunX_offset) - gunX_half;
-            positionY = (tankPosCenter.getPointY() - gunY_offset) - gunY_half;
-            joueur.setAngleTank(angle_descente);
+        gunX_offset = dis * Math.cos(Math.toRadians(angle + angle_offset_descente));
+        gunY_offset = dis * Math.sin(Math.toRadians(angle + angle_offset_descente));
+        positionX = (tankPosCenter.getPointX() - gunX_offset) - gunX_half;
+        positionY = (tankPosCenter.getPointY() - gunY_offset) - gunY_half;
+        joueur.setAngleTank(angle);
 
-        } else { // Cas d'une montée
-            gunX_offset = dis * Math.cos(Math.toRadians(angle_monte + angle_offset_monte));
-            gunY_offset = dis * Math.sin(Math.toRadians(angle_monte + angle_offset_monte));
-            positionX = (tankPosCenter.getPointX() - gunX_offset) - gunX_half;
-            positionY = (tankPosCenter.getPointY() - gunY_offset) - gunY_half;
-            joueur.setAngleTank(angle_monte);
-        }
-        if (angle_monte > 25) { // Cas des chutes => annulation de la rotation
+        if (angle > 25) { // Cas des chutes => annulation de la rotation
             joueur.getTankPointGauche().setPointY(Y[(int) joueur.getTankPointGauche().getPointX() * reglage_nb_point] - offset_tank_terrain);
             tankPosCenter = new Point(joueur.getTankPointGauche().getPointX() + tankPosCenterX_offset, joueur.getTankPointGauche().getPointY() + tankPosCenterY_offset);
             positionX = (tankPosCenter.getPointX() - gunX_offset2) - gunX_half;
@@ -104,6 +93,7 @@ public class TankActionListener extends JPanel implements ActionListener {
             joueur.setAngleTank(0);
         }
     }
+
     //Gere la montee/descente du tank sur une pente
     public void gestion_pente() {
         if (Y[(int) joueur.getTankPointDroit().getPointX() * reglage_nb_point] - Y[(int) joueur.getTankPointGauche().getPointX() * reglage_nb_point] > 0) {
