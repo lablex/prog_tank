@@ -5,27 +5,28 @@
  */
 package jeux_tank;
 
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
-import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 /**
  *
  * @author Kevin
  */
-public class Animation extends JPanel implements ActionListener {
+public class Animation extends JPanel implements ActionListener, KeyListener {
 
     // rafraichissement du Tank tous les 5ms
     Timer tm = new Timer(5, this);
+    Tank joueur = new Tank();
 
     //Variables concernant le terrain  
-    Terrain terrain;
+    Terrain terrain = new Terrain();
     int[] X;
     int[] Y;
     Point[] tab;
@@ -33,7 +34,6 @@ public class Animation extends JPanel implements ActionListener {
     int offset_tank_terrain = 50;
 
     //Variables concernant le tank
-    Tank joueur;
     double angle;
     double dx;
     double dy;
@@ -47,27 +47,28 @@ public class Animation extends JPanel implements ActionListener {
     double positionX;
     double positionY;
 
-    // Images du tank
-    private static final String IMAGE_PATH_tank = "src/jeux_tank/images/tank.png";
-    private static final String IMAGE_PATH_canon = "src/jeux_tank/images/canon.png";
-    private final int espace_vide_image = 20;
-    private final int taille_image = 75;
-
     // Constructeur de la classe
-    public Animation(Tank joueur, int[] X, int[] Y, Terrain terrain, Point[] tab) {
-        this.joueur = joueur;
-        this.Y = Y;
-        this.X = X;
-        this.terrain = terrain;
-        this.tab = tab;
+    public Animation() {
         tm.start();
+        //Initialisation des variables pour la création du terrain
+        X = new int[terrain.getNbPoint()];
+        Y = new int[terrain.getNbPoint()];
+        tab = terrain.getTab();
+        for (int i = 0; i < terrain.getNbPoint(); i++) {
+            X[i] = (int) tab[i].getPointX();
+            Y[i] = (int) tab[i].getPointY();
+        }
+        //Listeners
+        addKeyListener(this);
+        setFocusable(true);
+        setFocusTraversalKeysEnabled(false);
     }
 
     //Initialisation des points du tank
     public void initialisation_points_tank() {
         joueur.getTankPointGauche().setPointX((int) joueur.getTankPointGauche().getPointX() + joueur.vx);
         joueur.getTankPointDroit().setPointX(joueur.getTankPointGauche().getPointX() + joueur.longueur_tank);
-        joueur.getTankPoint113().setPointX(joueur.getTankPointGauche().getPointX() + joueur.longueur_tank - joueur.longueur_tank / 13);
+        joueur.getTankPoint113().setPointX(joueur.getTankPointGauche().getPointX() + joueur.longueur_tank - joueur.longueur_tank / 15);
         joueur.getTankPoint56().setPointX(joueur.getTankPointGauche().getPointX() + joueur.longueur_tank - joueur.longueur_tank / 6 * 5);
     }
 
@@ -124,7 +125,6 @@ public class Animation extends JPanel implements ActionListener {
         Point tankPosCenter = new Point(joueur.getTankPointGauche().getPointX() + tankPosCenterX_offset, joueur.getTankPointGauche().getPointY() + tankPosCenterY_offset);
         Point gunPosExtremite = new Point(joueur.getTankPointGauche().getPointX() + offsetX_gunPosExtremite, joueur.getTankPointGauche().getPointY() + offsetY_gunPosExtremite);
         dis = Point.distance(tankPosCenter, gunPosExtremite);
-        //distance(tankPosCenter, gunPosExtremite);
 
         gestion_rotation_pente(tankPosCenter, 144, 140, -36, 23);
 
@@ -139,6 +139,44 @@ public class Animation extends JPanel implements ActionListener {
         joueur.getTankExtremiteCanon().setPointY(positionY);
         // Non terminé
 
+    }
+
+    public void keyPressed(KeyEvent e) {
+        int c = e.getKeyCode();
+        if (c == KeyEvent.VK_LEFT) {
+            joueur.vx = -1;
+            joueur.vy = 0;
+        }
+        if (c == KeyEvent.VK_UP) {
+            joueur.vx = 0;
+            joueur.vy = -10;
+        }
+        if (c == KeyEvent.VK_RIGHT) {
+            joueur.vx = 1;
+            joueur.vy = 0;
+        }
+        if (c == KeyEvent.VK_DOWN) {
+            joueur.vx = 0;
+            joueur.vy = 10;
+        }
+        if (c == KeyEvent.VK_S) {
+            if (joueur.getAngleCanon() != 30) {
+                joueur.setAngleCanon(joueur.getAngleCanon() + 5);
+            }
+        }
+        if (c == KeyEvent.VK_Z) {
+            if (joueur.getAngleCanon() != -50) {
+                joueur.setAngleCanon(joueur.getAngleCanon() - 5);
+            }
+        }
+    }
+
+    public void keyTyped(KeyEvent e) {
+    }
+
+    public void keyReleased(KeyEvent e) {
+        joueur.vx = 0;
+        joueur.vy = 0;
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -165,24 +203,6 @@ public class Animation extends JPanel implements ActionListener {
         tir();
 
         repaint();
-
-    }
-
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        Image tank = new ImageIcon(IMAGE_PATH_tank).getImage();
-        Image canon = new ImageIcon(IMAGE_PATH_canon).getImage();
-        //Dessin Terrain
-        g.translate(250, 50);
-        g.drawPolyline(X, Y, terrain.getNbPoint());
-        g.drawRect(0, 0, 1000, 700);
-
-        //Extremité du Canon
-        g.drawLine(0, 0, (int) (joueur.getTankExtremiteCanon().getPointX()), (int) (joueur.getTankExtremiteCanon().getPointY()));
-        //Dessin Tank
-        g.drawImage(rotationImage(tank, joueur.getAngleTank()), (int) joueur.getTankPointGauche().getPointX() - espace_vide_image, (int) joueur.getTankPointGauche().getPointY(), taille_image, taille_image, this);
-        //Dessin Canon
-        g.drawImage(rotationImage(rotationImage(canon, joueur.getAngleCanon()), joueur.getAngleTank()), (int) joueur.getCentreCanon().getPointX(), (int) joueur.getCentreCanon().getPointY(), taille_image, taille_image, this);
 
     }
 
