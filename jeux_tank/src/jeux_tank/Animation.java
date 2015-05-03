@@ -68,14 +68,15 @@ public class Animation extends JPanel implements ActionListener, KeyListener {
     public void initialisation_points_tank() {
         joueur.getTankPointGauche().setPointX((int) joueur.getTankPointGauche().getPointX() + joueur.vx);
         joueur.getTankPointDroit().setPointX(joueur.getTankPointGauche().getPointX() + joueur.longueur_tank);
+        joueur.getTankPoint46().setPointX(joueur.getTankPointGauche().getPointX() + joueur.longueur_tank*4/6);
         joueur.getTankPoint113().setPointX(joueur.getTankPointGauche().getPointX() + joueur.longueur_tank - joueur.longueur_tank / 15);
         joueur.getTankPoint56().setPointX(joueur.getTankPointGauche().getPointX() + joueur.longueur_tank - joueur.longueur_tank / 6 * 5);
     }
 
     //Initialisation des angles
     public void initialisation_angles() {
-        angle = Point.getAngle(Math.atan2(tab[(int) joueur.getTankPoint113().getPointX() * reglage_nb_point].getPointY() - tab[(int) joueur.getTankPointGauche().getPointX() * reglage_nb_point].getPointY(),
-                tab[(int) joueur.getTankPoint113().getPointX() * reglage_nb_point].getPointX() - tab[(int) joueur.getTankPointGauche().getPointX() * reglage_nb_point].getPointX()));
+        angle = Point.getAngle(Math.atan2(tab[(int) joueur.getTankPoint113().getPointX() * reglage_nb_point].getPointY() - tab[(int) joueur.getTankPoint46().getPointX() * reglage_nb_point].getPointY(),
+                tab[(int) joueur.getTankPoint113().getPointX() * reglage_nb_point].getPointX() - tab[(int) joueur.getTankPoint46().getPointX() * reglage_nb_point].getPointX()));
     }
 
     //Gere la rotation du tank sur une pente

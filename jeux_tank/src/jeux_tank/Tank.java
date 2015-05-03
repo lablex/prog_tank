@@ -16,6 +16,7 @@ public class Tank {
     int x = 0, y = 0, vx = 1, vy = 1;
     Point tank_gauche;
     Point tank_droit;
+    Point tank_46;
     Point canon;
     Point tank_56; // Point à 5/6 (axe des X) du tank
     Point tank_113; // Point à 1/13 (axe des X) du tank 
@@ -26,6 +27,7 @@ public class Tank {
     public Tank() {
         tank_gauche = new Point(0, 0);
         tank_droit = new Point(0, 0);
+        tank_46 = new Point(0,0);
         tank_56 = new Point(0, 0);
         tank_113 = new Point(0, 0);
         canon = new Point(0, 0);
@@ -51,6 +53,10 @@ public class Tank {
 
     public Point getTankPointGauche() {
         return this.tank_gauche;
+    }
+    
+    public Point getTankPoint46(){
+        return this.tank_46;
     }
 
     public Point getTankPointDroit() {
