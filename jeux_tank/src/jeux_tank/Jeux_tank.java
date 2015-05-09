@@ -14,7 +14,7 @@ public class Jeux_tank {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+	public static void main(String[] args) {
         Fenetre fen = new Fenetre();
         fen.setVisible(true); 
     }

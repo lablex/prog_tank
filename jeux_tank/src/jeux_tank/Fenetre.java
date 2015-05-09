@@ -8,7 +8,7 @@ public class Fenetre extends JFrame {
 
     public Fenetre() {
         this.setTitle("tank");
-        this.setSize(10000, 10000);
+        this.setSize(1000, 1000);
         pan = new Draw();
         this.add(pan);
     }
