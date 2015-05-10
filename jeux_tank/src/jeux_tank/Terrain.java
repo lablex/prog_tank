@@ -3,13 +3,13 @@ package jeux_tank;
 
 public class Terrain {
 	private Point[] tab;
-	private int nbPoint=1000000;
+	private int nbPoint=1048576;
 	//période des sinus/cosinus
 	private double T = 4*3.14;
 	//pulsation des sinus/cosinus
 	private double w = (2*3.14)/T;
 	//distance entre deux abscisses
-	private double ecartX = T/1000000;
+	private double ecartX = T/nbPoint;
 	//varible qui va permettre d'incrémenter la variable incrementy. le nom de cette variable est trompeur car ce n'est pas y que l'on incrémente
 	//mais la valeur de x qui se trouve dans les sinus/cossinus qui eux permettent de donner la valeur de y
 	private double incrementy0 = ecartX;
@@ -34,7 +34,7 @@ public class Terrain {
 		double incrementx0=ecartX*1000/T;
 		
 		
-		for(int i=1; i<999999; i++){
+		for(int i=1; i<nbPoint-1; i++){
 			
 			//régla de la valeur x en incrémentant la variable incrementx de la valeur de la variable incrémentx0 à chaque nouveau tour de de boucle
 			tab[i].setPointX(incrementx);
@@ -48,9 +48,9 @@ public class Terrain {
 				tab[0].setPointX(0);
 				tab[0].setPointY(tab[1].getPointY()+200);
 			}
-			if(i==999998){
-				tab[999999].setPointX(incrementx);
-				tab[999999].setPointY(tab[999998].getPointY()+200);
+			if(i==nbPoint-2){
+				tab[nbPoint-1].setPointX(incrementx);
+				tab[nbPoint-1].setPointY(tab[nbPoint-2].getPointY()+200);
 			}
 			
 			//incrémentation des variable

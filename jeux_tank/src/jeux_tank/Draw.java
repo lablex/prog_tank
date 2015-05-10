@@ -16,15 +16,21 @@ import javax.swing.ImageIcon;
  */
 public class Draw extends Animation{
 
-    // Images du tank
+    public Draw(Tank[] joueur, int n) {
+		super(joueur, n);
+		
+	}
+
+	// Images du tank
     private static final String IMAGE_PATH_tank = "src/jeux_tank/images/tank.png";
     private static final String IMAGE_PATH_canon = "src/jeux_tank/images/canon.png";
     private final int espace_vide_image = 20;
     private final int taille_image = 75;
     //variable concernant le terrain se sont des reprise de variable qui sont deja existante dans la classe terrain
+    private int nbPoint=1048576;
     private double T = 4*3.14;
 	private double w = (2*3.14)/T;
-	private double ecartX = T/1000000;
+	private double ecartX = T/nbPoint;
 	private double incrementy0 = ecartX;
 	private double incrementy = 0;
 	private double incrementx=0;
@@ -58,22 +64,22 @@ public class Draw extends Animation{
         //pour pouvoir le collorier en bleu
 			X[0]=0;
 			Y[0]=Y[1]-1000;
-			X[999999]=(int)(incrementx0*999998);
-			Y[999999]=Y[999998]-1000;
+			X[nbPoint-1]=(int)(incrementx0*(nbPoint-2));
+			Y[nbPoint-1]=Y[nbPoint-2]-1000;
 		//r�glage de la couleur du ciel
 		g.setColor(Color.CYAN);
 	    g.fillPolygon(X, Y, terrain.getNbPoint());
 		
 	    //////////////////   FIN:     Dessin Terrain   //////////////////////
 
-
-        //Extremité du Canon
-        g.drawLine(0, 0, (int) (joueur.getTankExtremiteCanon().getPointX()), (int) (joueur.getTankExtremiteCanon().getPointY()));
-        //Dessin Tank
-        g.drawImage(rotationImage(tank, joueur.getAngleTank()), (int) joueur.getTankPointGauche().getPointX() - espace_vide_image, (int) joueur.getTankPointGauche().getPointY(), taille_image, taille_image, this);
-        //Dessin Canon
-        g.drawImage(rotationImage(rotationImage(canon, joueur.getAngleCanon()), joueur.getAngleTank()), (int) joueur.getCentreCanon().getPointX(), (int) joueur.getCentreCanon().getPointY(), taille_image, taille_image, this);
-
+	    for(int i=0; i<joueur.length; i++){
+	        //Extremité du Canon
+	        g.drawLine(0, 0, (int) (joueur[i].getTankExtremiteCanon().getPointX()), (int) (joueur[i].getTankExtremiteCanon().getPointY()));
+	        //Dessin Tank
+	        g.drawImage(rotationImage(tank, joueur[i].getAngleTank()), (int) joueur[i].getTankPointGauche().getPointX() - espace_vide_image, (int) joueur[i].getTankPointGauche().getPointY(), taille_image, taille_image, this);
+	        //Dessin Canon
+	        g.drawImage(rotationImage(rotationImage(canon, joueur[i].getAngleCanon()), joueur[i].getAngleTank()), (int) joueur[i].getCentreCanon().getPointX(), (int) joueur[i].getCentreCanon().getPointY(), taille_image, taille_image, this);
+	    }
     }
 
 }

@@ -17,6 +17,7 @@ public class Jeux_tank {
 	public static void main(String[] args) {
         Fenetre fen = new Fenetre();
         fen.setVisible(true); 
+        
     }
     
 }

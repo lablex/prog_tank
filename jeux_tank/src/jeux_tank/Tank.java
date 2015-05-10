@@ -11,7 +11,6 @@ package jeux_tank;
  */
 public class Tank {
 
-    private static final long serialVersionUID = 1L;
 
     int x = 0, y = 0, vx = 1, vy = 1;
     Point tank_gauche;
