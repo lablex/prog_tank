@@ -5,6 +5,10 @@
  */
 package jeux_tank;
 
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
+
 /**
  *
  * @author Kevin
@@ -12,70 +16,124 @@ package jeux_tank;
 public class Tank {
 
 
-    int x = 0, y = 0, vx = 1, vy = 1;
-    Point tank_gauche;
-    Point tank_droit;
-    Point tank_46;
-    Point canon;
-    Point tank_56; // Point à 5/6 (axe des X) du tank
-    Point tank_113; // Point à 1/13 (axe des X) du tank 
-    Point extremite_canon; // Point à 1/15 (axe des X) du tank 
-    double angle_tank, angle_canon = 0;
-    protected final int longueur_tank;
+    private double x = 0;
+    private Point tankGauche;
+    private Point tankDroit;
+    private double angleTank;
+    private double angleCanon;
+    private static Image immTank; 
+    private static Image immCanon; 
+    private static int width = 50*(106/2)/180;
+    private final double longueurTank;
+    private static int PXimage = 1000;
 
-    public Tank() {
-        tank_gauche = new Point(0, 0);
-        tank_droit = new Point(0, 0);
-        tank_46 = new Point(0,0);
-        tank_56 = new Point(0, 0);
-        tank_113 = new Point(0, 0);
-        canon = new Point(0, 0);
-        extremite_canon = new Point(0, 0);
-        longueur_tank = 30;
+    
+    public Tank(String IMAGE_PATH_tank, String IMAGE_PATH_canon) {
+    	immTank =  new ImageIcon(IMAGE_PATH_tank).getImage();
+    	immCanon = new ImageIcon(IMAGE_PATH_canon).getImage();
+        tankGauche = new Point(0, 0);
+        tankDroit = new Point(0, 0);
+        angleCanon = 0;
+        longueurTank = (Terrain.getNbPoint()*width/PXimage)*Terrain.getEcartX();
+    }
+    
+    
+    public Image getImTank(){
+		return immTank;
+    	
+    }
+    
+    public Image getImCanon(){
+		return immCanon;
+    	
+    }
+    
+    public void setAngleCanon(double angleCanon){
+    	this.angleCanon = this.angleCanon + angleCanon;
+    }
+    
+    public double getAngleCanon(){
+    	return this.angleCanon;
     }
 
-    public void setAngleCanon(double angle_canon) {
-        this.angle_canon = angle_canon;
+    public double getLongueurTank() {
+        return this.longueurTank;
+    }
+    
+    public void setX(double x) {
+        this.x =this.x + x;
+    }
+    
+    public static int getWidth() {
+        return width;
     }
 
-    public double getAngleCanon() {
-        return this.angle_canon;
+    public static int getPXimage() {
+        return PXimage;
+    }
+    
+    public double getVX() {
+        return this.x;
+    }
+    
+    public double getX() {
+        return this.x;
+    }
+    
+    public static int getXInt(double x) {
+        return (int)(x/Terrain.getEcartX());
+    }
+    
+    public int getXInt() {
+        return (int)(this.x/Terrain.getEcartX());
     }
 
-    public void setAngleTank(double angle_tank) {
-        this.angle_tank = angle_tank;
+
+    public void setAngleTank(double angleTank) {
+        this.angleTank = angleTank;
     }
 
     public double getAngleTank() {
-        return this.angle_tank;
-    }
-
-    public Point getTankPointGauche() {
-        return this.tank_gauche;
+        return this.angleTank;
     }
     
-    public Point getTankPoint46(){
-        return this.tank_46;
+    public Point getTankPointGauche() {
+        return this.tankGauche;
     }
 
+    public double getTankPointGaucheX() {
+        return this.tankGauche.getPointX();
+    }
+    public double getTankPointGaucheY() {
+        return this.tankGauche.getPointY();
+    }
+    
+    public void setTankPointGaucheX(double x) {
+        this.tankGauche.setPointX(x);
+    }
+    
+    public void setTankPointGaucheY(double y) {
+        this.tankGauche.setPointY(y);
+    }
+    
+    public void setTankPointDroitX(double x) {
+        this.tankDroit.setPointX(x);
+    }
+    
+    public void setTankPointDroitY(double y) {
+        this.tankDroit.setPointY(y);
+    }
+    
     public Point getTankPointDroit() {
-        return this.tank_droit;
+        return this.tankDroit;
     }
 
-    public Point getCentreCanon() {
-        return this.canon;
+    public double getTankPointDroitX() {
+        return this.tankDroit.getPointX();
     }
-
-    public Point getTankPoint56() {
-        return this.tank_56;
-    }
-
-    public Point getTankPoint113() {
-        return this.tank_113;
-    }
-
-    public Point getTankExtremiteCanon() {
-        return this.extremite_canon;
+    
+    public double getTankPointDroitY() {
+        return this.tankDroit.getPointY();
     }
 
 }

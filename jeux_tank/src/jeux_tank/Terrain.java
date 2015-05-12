@@ -3,17 +3,17 @@ package jeux_tank;
 
 public class Terrain {
 	private Point[] tab;
-	private int nbPoint=1048576;
-	//période des sinus/cosinus
-	private double T = 4*3.14;
+	private static int nbPoint=1000;
+	//pï¿½riode des sinus/cosinus
+	private static double T = 4*3.14;
 	//pulsation des sinus/cosinus
 	private double w = (2*3.14)/T;
 	//distance entre deux abscisses
-	private double ecartX = T/nbPoint;
-	//varible qui va permettre d'incrémenter la variable incrementy. le nom de cette variable est trompeur car ce n'est pas y que l'on incrémente
+	private static double ecartX = T/nbPoint;
+	//varible qui va permettre d'incrï¿½menter la variable incrementy. le nom de cette variable est trompeur car ce n'est pas y que l'on incrï¿½mente
 	//mais la valeur de x qui se trouve dans les sinus/cossinus qui eux permettent de donner la valeur de y
 	private double incrementy0 = ecartX;
-	//coeficient de fourier aléatoire
+	//coeficient de fourier alï¿½atoire
 	private double coef1=150*Math.random();
 	private double coef0=150*Math.random();
 	private double coef2=150*Math.random();
@@ -23,27 +23,27 @@ public class Terrain {
 	{
 		tab = Point.tabPoint(nbPoint);
 		
-		//valeur de la corrdonné y a chaque nouveaux tour de boucle
+		//valeur de la corrdonnï¿½ y a chaque nouveaux tour de boucle
 		double incrementy = 0;
 		
-		//valeur de la corrdonné x a chaque nouveaux tour de boucle
+		//valeur de la corrdonnï¿½ x a chaque nouveaux tour de boucle
 		double incrementx=0;
 		
-		//valeur permétant d'incrémenter la vriable incrementx le calcule qui donne la valeur de incrementx0
+		//valeur permï¿½tant d'incrï¿½menter la vriable incrementx le calcule qui donne la valeur de incrementx0
 		//est un produit en croit cela permet de dilater l'axe des x est ainsi agrandire la courbe sinn celle ci serait invisible
 		double incrementx0=ecartX*1000/T;
 		
 		
 		for(int i=1; i<nbPoint-1; i++){
 			
-			//régla de la valeur x en incrémentant la variable incrementx de la valeur de la variable incrémentx0 à chaque nouveau tour de de boucle
+			//rï¿½gla de la valeur x en incrï¿½mentant la variable incrementx de la valeur de la variable incrï¿½mentx0 ï¿½ chaque nouveau tour de de boucle
 			tab[i].setPointX(incrementx);
-			//réglade la valeur y avec l'aide d'une série de fourier cette série est alléatoir car elle possède des coef alléatoire
-			tab[i].setPointY(coef0*Math.sin(1*w*incrementy)+coef1*Math.sin(2*w*incrementy)+60*Math.sin(3*w*incrementy)+15*Math.sin(4*w*incrementy)+10*Math.sin(5*w*incrementy)+5*Math.sin(6*w*incrementy)+
+			//rï¿½glade la valeur y avec l'aide d'une sï¿½rie de fourier cette sï¿½rie est allï¿½atoir car elle possï¿½de des coef allï¿½atoire
+			tab[i].setPointY(coef0*Math.sin(1*w*incrementy)+coef1*Math.sin(2*w*incrementy)+60*Math.sin(3*w*incrementy)+15*Math.sin(4*w*incrementy)+10*Math.sin(5*w*incrementy)+3*Math.sin(6*w*incrementy)+
 							 coef2*Math.cos(1*w*incrementy)+coef3*Math.cos(2*w*incrementy)+20*Math.cos(3*w*incrementy)+5*Math.cos(4*w*incrementy)+8*Math.cos(5*w*incrementy)+5*Math.cos(6*w*incrementy));
-			//ces deux if permettent de placer le premier point et le dernier point à des ordonné beaucoup plus basses mais à la mêmme abscisse 
-			//le dexieme et avant dernier point qui comment la courbe ce placement sert a former un poligone qui à 3 coté en forme de droite et 
-			//un présentant notre courbe. ce poligonne est important car il nous permettra par la suite de colloré le terrain
+			//ces deux if permettent de placer le premier point et le dernier point ï¿½ des ordonnï¿½ beaucoup plus basses mais ï¿½ la mï¿½mme abscisse 
+			//le dexieme et avant dernier point qui comment la courbe ce placement sert a former un poligone qui ï¿½ 3 cotï¿½ en forme de droite et 
+			//un prï¿½sentant notre courbe. ce poligonne est important car il nous permettra par la suite de collorï¿½ le terrain
 			if(i==1){
 				tab[0].setPointX(0);
 				tab[0].setPointY(tab[1].getPointY()+200);
@@ -53,7 +53,7 @@ public class Terrain {
 				tab[nbPoint-1].setPointY(tab[nbPoint-2].getPointY()+200);
 			}
 			
-			//incrémentation des variable
+			//incrï¿½mentation des variable
 			incrementy=incrementy+incrementy0;
 			incrementx=incrementx+incrementx0;
 		}
@@ -85,13 +85,22 @@ public class Terrain {
 		}
 	}
 	
+	public static int getT() {
+        return (int) T;
+    }
+	
 	public Point[] getTab()
 	{
 		return this.tab;
 	}
 	
-	public int getNbPoint()
+	public static double getEcartX()
 	{
-		return this.nbPoint;
+		return ecartX;
+	}
+	
+	public static int getNbPoint()
+	{
+		return nbPoint;
 	}
 }

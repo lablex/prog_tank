@@ -29,9 +29,19 @@ public class Point {
         double dist = Math.abs(a.getPointX() - getPointX());
         return dist;
     }
+    
+    public static double distanceX(Point a, Point b) {
+        double dist = a.getPointX() - b.getPointX();
+        return dist;
+    }
 
     public double distanceY(Point a) {
         double dist = Math.abs(a.getPointY() - getPointY());
+        return dist;
+    }
+    
+    public static double distanceY(Point a, Point b) {
+        double dist = a.getPointY() - b.getPointY();
         return dist;
     }
 
@@ -62,6 +72,21 @@ public class Point {
         double theta = 0;
         theta = Math.acos((Math.abs(a.getPointX() - this.getPointX())) / (this.distance(a)));
         return theta;
+    }
+    
+    public static double angleBis(Point a, Point b){
+		Point oxi = new Point(0,0);
+    	oxi.setPointX(b.getPointX());
+    	oxi.setPointY(a.getPointY());
+    	double dist1 = -distanceY(oxi, b);
+    	System.out.println("dist1: "+distanceY(oxi, b));
+    	
+    	double dist2 = distanceX(a, oxi);
+    	System.out.println("dist2: "+distanceX(a, oxi));
+    	double div = dist1/dist2;
+    	System.out.println("div: "+div);
+		return Math.atan(div);
+    	
     }
     
         //Angle entre deux points
