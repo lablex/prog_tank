@@ -18,7 +18,7 @@ public class Point {
     }
 
     //Distance entre deux points
-    public static double distance(Point point1, Point point2) {
+    public double distance(Point point1, Point point2) {
         double dx = point1.getPointX() - point2.getPointX();
         double dy = point1.getPointY() - point2.getPointY();
         double dis = Math.sqrt(dx * dx + dy * dy);
@@ -53,7 +53,7 @@ public class Point {
         }
     }
 
-    public static Point pointMillieu(Point a, Point b) {
+    public Point pointMillieu(Point a, Point b) {
         Point c = new Point(0, 0);
         c.setPointX((a.getPointX() - b.getPointX()) / 2);
         c.setPointY((a.getPointY() - b.getPointY()) / 2);
@@ -79,12 +79,8 @@ public class Point {
     	oxi.setPointX(b.getPointX());
     	oxi.setPointY(a.getPointY());
     	double dist1 = -distanceY(oxi, b);
-    	System.out.println("dist1: "+distanceY(oxi, b));
-    	
     	double dist2 = distanceX(a, oxi);
-    	System.out.println("dist2: "+distanceX(a, oxi));
     	double div = dist1/dist2;
-    	System.out.println("div: "+div);
 		return Math.atan(div);
     	
     }

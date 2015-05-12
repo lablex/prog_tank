@@ -1,27 +1,34 @@
 package jeux_tank;
 
-import java.awt.Toolkit;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class annimbis {
 	Timer timer;
-	Tank joueur;
 	Animation anim;
+	boolean bool;
 	 
-	public annimbis(int mseconds, Tank joueur, Animation anim) {
+	public annimbis(int mseconds, Animation anim, boolean bool) {
 		timer = new Timer();
 		this.anim = anim;
-		this.joueur = joueur;
 		timer.schedule(new task(), 0, mseconds);
+		this.bool = bool;
+	}
+	public boolean getBool(){
+		return bool;
+	}
+	
+	public void setBool(boolean bool){
+		this.bool=bool;
 	}
  
 	class task extends TimerTask {
 		public void run() {
-
-	        anim.initialisation_points_tank();
-	        anim.setAngleTank();
-	        anim.repainting();
+			if(bool){
+		        anim.initialisation_points_tank();
+		        anim.setAngleTank();
+		        anim.repainting();
+			}
 
 		}
 	}

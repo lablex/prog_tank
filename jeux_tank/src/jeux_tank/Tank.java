@@ -21,11 +21,12 @@ public class Tank {
     private Point tankDroit;
     private double angleTank;
     private double angleCanon;
-    private static Image immTank; 
-    private static Image immCanon; 
+    private Image immTank; 
+    private Image immCanon; 
     private static int width = 50*(106/2)/180;
     private final double longueurTank;
     private static int PXimage = 1000;
+    static int countInstance=0;
 
     
     public Tank(String IMAGE_PATH_tank, String IMAGE_PATH_canon) {
@@ -35,6 +36,7 @@ public class Tank {
         tankDroit = new Point(0, 0);
         angleCanon = 0;
         longueurTank = (Terrain.getNbPoint()*width/PXimage)*Terrain.getEcartX();
+        countInstance+=1;
     }
     
     
@@ -48,8 +50,10 @@ public class Tank {
     	
     }
     
-    public void setAngleCanon(double angleCanon){
-    	this.angleCanon = this.angleCanon + angleCanon;
+    public void setAngleCanon(double angleCanon, boolean test){
+    	if(test){
+    		this.angleCanon = this.angleCanon + angleCanon;
+    	}
     }
     
     public double getAngleCanon(){
@@ -60,8 +64,10 @@ public class Tank {
         return this.longueurTank;
     }
     
-    public void setX(double x) {
+    public void setX(double x, boolean test) {
+    	if(test){
         this.x =this.x + x;
+    	}
     }
     
     public static int getWidth() {
@@ -80,7 +86,7 @@ public class Tank {
         return this.x;
     }
     
-    public static int getXInt(double x) {
+    public int getXInt(double x) {
         return (int)(x/Terrain.getEcartX());
     }
     

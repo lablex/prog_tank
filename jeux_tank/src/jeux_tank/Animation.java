@@ -19,54 +19,30 @@ import javax.swing.JPanel;
  */
 public class Animation extends JPanel {
 
+	protected Terrain terrain;
 	protected Tank[] tank;
-    protected Terrain terrain = new Terrain();
-    protected int[] X;
-    protected int[] Y;
     protected Point[] pointTerrain;
 
 
     // Constructeur de la classe
-    public Animation(Tank[] tank, int n) {
+    public Animation(Tank[] tank, int n, Terrain terrain) {
     	this.tank = new Tank[n];
     	
     	for(int i=0; i<tank.length; i++){
     		
     		this.tank[i] = tank[i];
     	}
-    	
-        //Initialisation des variables pour la crÃ©ation du terrain
-        X = new int[Terrain.getNbPoint()];
-        Y = new int[Terrain.getNbPoint()];
-        pointTerrain = terrain.getTab();
-        for (int i = 0; i < Terrain.getNbPoint(); i++) {
-            X[i] = (int) pointTerrain[i].getPointX();
-            Y[i] = (int) pointTerrain[i].getPointY();
-        }
+    	this.terrain=terrain;
 
     }
     
     //Initialisation des points du tank
    public void initialisation_points_tank() {
     	for(int i=0; i<tank.length; i++){
-	        tank[i].setTankPointGaucheX(X[Tank.getXInt(tank[i].getX())]);
-	        tank[i].setTankPointDroitX(X[Tank.getXInt(tank[i].getX()+tank[i].getLongueurTank())]);
-	        tank[i].setTankPointGaucheY(Y[tank[i].getXInt()]);
-	        tank[i].setTankPointDroitY(Y[Tank.getXInt(tank[i].getX()+tank[i].getLongueurTank())]);
-
-    		
-	        System.out.println("Xg: "+X[Tank.getXInt(tank[i].getX())]);
-	        System.out.println("Xd: "+X[Tank.getXInt(tank[i].getX()+tank[i].getLongueurTank())]);
-	        System.out.println("Yg: "+Y[tank[i].getXInt()]);
-	        System.out.println("X: "+X[tank[i].getXInt()]);
-	        System.out.println("getXInt+getLongueur_tank: "+tank[i].getXInt()+tank[i].getXInt(tank[i].getLongueurTank()));
-	        System.out.println("getXIn: "+tank[i].getXInt());
-	        System.out.println("getTankPointDroitY: "+tank[i].getTankPointDroitY());
-	        System.out.println("getTankPointGaucheY: "+tank[i].getTankPointGaucheY());
-	        System.out.println("getTankPointGaucheX: "+tank[i].getTankPointGaucheX());
-	        System.out.println("getTankPointDroitX: "+tank[i].getTankPointDroitX());
-	        System.out.println("getTankPointDroitY: "+Tank.getWidth());
-	        System.out.println("");
+	        tank[i].setTankPointGaucheX(terrain.getTerrainX(tank[i].getXInt(tank[i].getX())));
+	        tank[i].setTankPointDroitX(terrain.getTerrainX(tank[i].getXInt(tank[i].getX()+tank[i].getLongueurTank())));
+	        tank[i].setTankPointGaucheY(terrain.getTerrainY(tank[i].getXInt(tank[i].getX())));
+	        tank[i].setTankPointDroitY(terrain.getTerrainY(tank[i].getXInt(tank[i].getX()+tank[i].getLongueurTank())));
     	}
 
     }
@@ -75,8 +51,6 @@ public class Animation extends JPanel {
     	double[] tab = new double[tank.length];
     	for(int i=0; i<tank.length; i++){
     		tab[i]=-Point.angleBis(tank[i].getTankPointGauche(), tank[i].getTankPointDroit());
-    		System.out.println("angle: "+tab[i]);
-    		 System.out.println("");
     	}
     	return tab;
     }
