@@ -137,7 +137,7 @@ public class Point {
         return this.x;
     }
 
-    public void setPointY(double y) {
+	public void setPointY(double y) {
         this.y = y;
     }
 
