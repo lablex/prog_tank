@@ -10,27 +10,36 @@ import java.awt.Graphics;
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
+import javax.swing.JPanel;
 
 /**
  *
  * @author Kevin
  */
-public class Draw extends Animation {
+public class Draw extends JPanel{
 
 	private final int taille_image = 50;
 	private final int taille_image2 = 100;
-	private final int PLUS = 50 * (106 / 2) / 180;
-	private final int PLUS2 = 50 * 106 / 180;
-	private final int PLUS2s = 50 * 206 / 180;
-	private final int PLUS3 = 100 * 150 / 500;
+
+	protected Terrain terrain;
+	protected Tank[] tank;
+	protected Point[] pointTerrain;
+	protected Missile missile1;
+	protected Missile missile2;
 
 	public Draw(Tank[] tank, int n, Terrain terrain, Missile missile1, Missile missile2) {
-		super(tank, n, terrain, missile1, missile2);
+		this.tank = new Tank[n];
+		this.missile1 = missile1;
+		this.missile2 = missile2;
+		this.terrain = terrain;
+
+		for (int i = 0; i < tank.length; i++) {
+
+			this.tank[i] = tank[i];
+		}
 	}
 
 	public void paintComponent(Graphics g) {
-
-		super.paintComponent(g);
 
 		g.translate(0, 400);
 		drawTerrain(g, terrain.getTerrainX(), terrain.getTerrainY());
@@ -39,38 +48,27 @@ public class Draw extends Animation {
 		drawTrajectoir(g, missile2.getPosition(), "missile2");
 		drawTrajectoir(g, missile1.getPosition(), "missile1");
 		for (int i = 0; i < tank.length; i++) {
-			drawTank(g, terrain.getTerrainX(tank[i].getXInt()) - 25
-					+ (int) (PLUS * Math.sin(tank[i].getAngleTank())),
-					terrain.getTerrainY(tank[i].getXInt()) - 25
-					- (int) (PLUS * Math.cos(tank[i].getAngleTank())),
-					tank[i]);
+			drawTank(g, tank[i].getPositionTankX(),tank[i].getPositionTankY(),tank[i]);
 		}
-		g.drawOval(terrain.getTerrainX(tank[0].getXInt())+ (int) (PLUS2 * Math.sin(tank[0].getAngleTank()))-10,		
-				+terrain.getTerrainY(tank[0].getXInt())- (int) (PLUS2 * Math.cos(tank[0].getAngleTank()))-10, 20, 20);
-
 	}
 
 	public void drawTrajectoir(Graphics g, Point point, String name) {
 		g.drawOval((int) point.getPointX(), -(int) point.getPointY(), 25, 25);
 
 	}
+	
+	public void repainting() {
+		repaint();
+	}
 
 	public void drawTank(Graphics g, int x, int y, Tank tank) {
 
 		// Dessin Tank
-		g.drawImage(rotationImage(tank.getImTank(), tank.getAngleTank()), x, y,
-				taille_image, taille_image, this);
+		g.drawImage(tank.rotationImageTank(tank.getImTank(), tank.getAngleTank()), x, y,taille_image, taille_image, this);
 
 		// Dessin Canon
 		g.drawImage(
-				rotationImage(
-						rotationImage(tank.getImCanon(), tank.getAngleCanon()),
-						tank.getAngleTank()),
-				terrain.getTerrainX(tank.getXInt()) - 50
-						+ (int) (PLUS2 * Math.sin(tank.getAngleTank())),
-				terrain.getTerrainY(tank.getXInt()) - 50
-						- (int) (PLUS2 * Math.cos(tank.getAngleTank())),
-				taille_image2, taille_image2, this);
+				tank.rotationImageTank(tank.rotationImageCanon(tank.getImCanon(), tank.getAngleCanon()),tank.getAngleTank()),tank.getPositionCanonX(),tank.getPositionCanonY(),taille_image2, taille_image2, this);
 	}
 
 	public void drawTerrain(Graphics g, int[] terrainX, int[] terrainY) {

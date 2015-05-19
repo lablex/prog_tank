@@ -5,87 +5,130 @@
  */
 package jeux_tank;
 
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-
-import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-/**
- *
- * @author Kevin
- */
-public class Animation extends JPanel {
+public class Animation  extends Thread {
+	private volatile boolean avance= false;
+	private volatile boolean tir=false;
+	private volatile boolean altern;
+	private JPanel pan;
+	private Missile missile1;
+	private Missile missile2;
+	private Tank tank1;
+	private Tank tank2;
+	private int count;
 
-	protected Terrain terrain;
-	protected Tank[] tank;
-	protected Point[] pointTerrain;
-	protected Missile missile1;
-	protected Missile missile2;
-
-	// Constructeur de la classe
-	public Animation(Tank[] tank, int n, Terrain terrain, Missile missile1, Missile missile2) {
-		this.tank = new Tank[n];
+	public Animation(Missile missile1, Missile missile2, Tank tank1, Tank tank2, JPanel pan) {
 		this.missile1 = missile1;
 		this.missile2 = missile2;
-		this.terrain = terrain;
+		this.tank1 = tank1;
+		this.tank2 = tank2;
+		this.pan=pan;
+		
+		this.tank1.setPointsTank();
+		this.tank1.setPositionTankX();
+		this.tank1.setPositionTankY();
+		this.tank1.setPositionCanonX();
+		this.tank1.setPositionCanonY();
+		this.tank1.setAngleTank();
+		
+		this.tank2.setPointsTank();
+		this.tank2.setPositionTankX();
+		this.tank2.setPositionTankY();
+		this.tank2.setPositionCanonX();
+		this.tank2.setPositionCanonY();
+		this.tank2.setAngleTank();
+	}
 
-		for (int i = 0; i < tank.length; i++) {
+	public void run() {
 
-			this.tank[i] = tank[i];
+		while (true) {
+				try {
+					
+					count++;
+					if(count<10000){
+						
+						altern=false;
+						if(count==9999){
+							avance= false;
+							tir=false;
+							Fenetre.setAvance(true);
+							Fenetre.setTir(true);
+						}
+					}else if(10000<=count && count<20000){
+						altern=true;
+					}else{
+						count=0;
+						avance= false;
+						tir=false;
+						Fenetre.setAvance(true);
+						Fenetre.setTir(true);
+					}
+					
+					
+					if(altern){
+						if(tir && !avance){
+							missile1.setMissile(100);
+							missile1.setPosition();
+							if(!missile1.getRunning()){
+								missile1.setRunning(true);
+							}
+						}
+						if(!tir && avance){
+							tank1.setPointsTank();
+							tank1.setPositionTankX();
+							tank1.setPositionTankY();
+							tank1.setPositionCanonX();
+							tank1.setPositionCanonY();
+							tank1.setAngleTank();
+						}
+						
+					}else{
+						if(tir && !avance){
+							missile2.setMissile(100);
+							missile2.setPosition();
+							if(!missile2.getRunning()){
+								missile2.setRunning(true);
+							}
+						}if(!tir && avance){
+							tank2.setPointsTank();
+							tank2.setPositionTankX();
+							tank2.setPositionTankY();
+							tank2.setPositionCanonX();
+							tank2.setPositionCanonY();
+							tank2.setAngleTank();
+						}
+					}
+					
+					pan.repaint();
+					Thread.sleep(1);
+					
+				} catch (InterruptedException e) {
+					Thread.currentThread().interrupt(); // Très important de réinterrompre
+					break; // Sortie de la boucle infinie
+
+				}
 		}
-	}
-
-	// Initialisation des points du tank
-	public void initialisation_points_tank() {
-
-		for (int i = 0; i < tank.length; i++) {
-			tank[i].setTankPointGaucheX(terrain.getTerrainX(tank[i]
-					.getXInt(tank[i].getX())));
-			tank[i].setTankPointDroitX(terrain.getTerrainX(tank[i]
-					.getXInt(tank[i].getX() + tank[i].getLongueurTank())));
-			tank[i].setTankPointGaucheY(terrain.getTerrainY(tank[i]
-					.getXInt(tank[i].getX())));
-			tank[i].setTankPointDroitY(terrain.getTerrainY(tank[i]
-					.getXInt(tank[i].getX() + tank[i].getLongueurTank())));
-		}
 
 	}
-
-
-	public double[] getAngleImage() {
-		double[] tab = new double[tank.length];
-		for (int i = 0; i < tank.length; i++) {
-			tab[i] = -Point.angleBis(tank[i].getTankPointGauche(),
-					tank[i].getTankPointDroit());
-		}
-		return tab;
+	
+	public boolean getAltern(){
+		return altern;
 	}
-
-	public void setAngleTank() {
-		double[] tab = new double[tank.length];
-		tab = getAngleImage();
-		for (int i = 0; i < tank.length; i++) {
-			tank[i].setAngleTank(tab[i]);
-		}
+	
+	public boolean getAvance(){
+		return avance;
 	}
-
-	public BufferedImage rotationImage(Image image, double degs) {
-		int width = image.getWidth(null);
-		int height = image.getHeight(null);
-		int a = tank[0].getXInt();
-		BufferedImage temp = new BufferedImage(height, width,
-				BufferedImage.TYPE_4BYTE_ABGR);
-		Graphics2D g2 = temp.createGraphics();
-		g2.rotate(degs, width / 2, height / 2); // RÃ©glage de l'angle
-		g2.drawImage(image, 0, 0, null);
-		g2.dispose();
-		return temp;
+	
+	public boolean getTir(){
+		return tir;
 	}
-
-	public void repainting() {
-		repaint();
+	
+	public void setAvance(boolean avance){
+		this.avance=avance;
 	}
-
+	
+	public void setTir(boolean tir){
+		this.tir= tir;
+	}
 }

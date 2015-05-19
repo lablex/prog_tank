@@ -5,7 +5,9 @@
  */
 package jeux_tank;
 
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 
 import javax.swing.ImageIcon;
 
@@ -26,13 +28,18 @@ public class Tank {
 	private final double longueurTank;
 	private static int PXimage = 1000;
 	static int countInstance = 0;
-	protected Missile missile;
-
+	private int positionTankX;
+	private int positionTankY;
+	private int positionCanonY;
+	private int positionCanonX;
+	private final int PLUS = 50 * (106 / 2) / 180;
+	private final int PLUS2 = 50 * 106 / 180;
+	private final int PLUS2s = 50 * 206 / 180;
+	private final int PLUS3 = 100 * 150 / 500;
 	
 	
 	private double TPRIM = 1000;
-	private double ecartXFEN = (int) (Terrain.getNbPoint() / TPRIM)
-			* Terrain.getEcartX();
+	private double ecartXFEN = (int) (Terrain.getNbPoint() / TPRIM)* Terrain.getEcartX();
 
 	public Tank(String IMAGE_PATH_tank, String IMAGE_PATH_canon, int emplacement) {
 		immTank = new ImageIcon(IMAGE_PATH_tank).getImage();
@@ -45,9 +52,95 @@ public class Tank {
 				* Terrain.getEcartX();
 		countInstance += 1;
 	}
+	
+	public void setPointsTank() {
 
-	public Missile getMissile() {
-		return this.missile;
+			setTankPointGaucheX(Terrain.getTerrainX(getXInt(getX())));
+			setTankPointDroitX(Terrain.getTerrainX(getXInt(getX() + getLongueurTank())));
+			setTankPointGaucheY(Terrain.getTerrainY(getXInt(getX())));
+			setTankPointDroitY(Terrain.getTerrainY(getXInt(getX() + getLongueurTank())));
+
+	}
+	
+	public void setPositionTankX() {
+
+		positionTankX = Terrain.getTerrainX(getXInt()) - 25 + (int) (PLUS * Math.sin(getAngleTank()));
+
+	}
+	
+	public void setPositionTankY() {
+
+		positionTankY = Terrain.getTerrainY(getXInt()) - 25 - (int) (PLUS * Math.cos(getAngleTank()));
+
+	}
+	
+	public int getPositionTankX() {
+
+		return positionTankX ;
+
+	}
+	
+	public int getPositionTankY() {
+
+		return positionTankY ;
+
+	}
+	
+	public void setPositionCanonX() {
+
+		positionCanonX = Terrain.getTerrainX(getXInt()) - 50 + (int) (PLUS2 * Math.sin(getAngleTank()));
+		//System.out.println(PLUS2 * Math.sin(getAngleTank()));
+
+	}
+	
+	public void setPositionCanonY() {
+
+		positionCanonY = Terrain.getTerrainY(getXInt()) - 50 - (int) (PLUS2 * Math.cos(getAngleTank()));
+		//System.out.println("test"+positionCanonY);
+
+	}
+	
+	public int getPositionCanonX() {
+
+		return positionCanonX ;
+
+	}
+	
+	public int getPositionCanonY() {
+
+		return positionCanonY ;
+
+	}
+
+
+	public void setAngleTank() {
+		angleTank=-Point.angleBis(getTankPointGauche(),getTankPointDroit());
+	}
+
+	public BufferedImage rotationImageTank(Image image, double degs) {
+		int width = image.getWidth(null);
+		int height = image.getHeight(null);
+		int a = getXInt();
+		BufferedImage temp = new BufferedImage(height, width,
+				BufferedImage.TYPE_4BYTE_ABGR);
+		Graphics2D g2 = temp.createGraphics();
+		g2.rotate(degs, width / 2, height / 2); // RÃ©glage de l'angle
+		g2.drawImage(image, 0, 0, null);
+		g2.dispose();
+		return temp;
+	}
+	
+	public BufferedImage rotationImageCanon(Image image, double degs) {
+		int width = image.getWidth(null);
+		int height = image.getHeight(null);
+		int a = getXInt();
+		BufferedImage temp = new BufferedImage(height, width,
+				BufferedImage.TYPE_4BYTE_ABGR);
+		Graphics2D g2 = temp.createGraphics();
+		g2.rotate(degs, width / 2, height / 2); // RÃ©glage de l'angle
+		g2.drawImage(image, 0, 0, null);
+		g2.dispose();
+		return temp;
 	}
 	
 	public Image getImTank() {
@@ -109,23 +202,24 @@ public class Tank {
 	}
 
 	public double getAngleTank() {
-		return this.angleTank;
+		return angleTank;
 	}
 
 	public Point getTankPointGauche() {
-		return this.tankGauche;
+		return tankGauche;
+		
 	}
 
 	public double getTankPointGaucheX() {
-		return this.tankGauche.getPointX();
+		return tankGauche.getPointX();
 	}
 
 	public double getTankPointGaucheY() {
-		return this.tankGauche.getPointY();
+		return tankGauche.getPointY();
 	}
 
 	public void setTankPointGaucheX(double x) {
-		this.tankGauche.setPointX(x);
+		tankGauche.setPointX(x);
 	}
 
 	public void setTankPointGaucheY(double y) {
