@@ -17,7 +17,7 @@ public class Animation  extends Thread {
 	private Tank tank1;
 	private Tank tank2;
 	private int count;
-
+        
 	public Animation(Missile missile1, Missile missile2, Tank tank1, Tank tank2, JPanel pan) {
 		this.missile1 = missile1;
 		this.missile2 = missile2;
@@ -82,9 +82,9 @@ public class Animation  extends Thread {
 					
 					if(altern){
 						if(tir && !avance){
-							missile1.setMissile(100);
+							missile1.setMissile(Missile.getV0());
 							missile1.setPosition();
-							if(!missile1.getRunning()){
+							if(!missile1.getRunning() && missile1.getI() !=0){
 								missile1.setRunning(true);
 							}
 						}
@@ -99,9 +99,9 @@ public class Animation  extends Thread {
 						
 					}else{
 						if(tir && !avance){
-							missile2.setMissile(100);
+							missile2.setMissile(Missile.getV0());
 							missile2.setPosition();
-							if(!missile2.getRunning()){
+							if(!missile2.getRunning() && missile2.getI() != 0){
 								missile2.setRunning(true);
 							}
 						}if(!tir && avance){
@@ -145,4 +145,5 @@ public class Animation  extends Thread {
 	public void setTir(boolean tir){
 		this.tir= tir;
 	}
+        
 }

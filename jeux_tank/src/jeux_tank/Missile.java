@@ -3,13 +3,13 @@ package jeux_tank;
 public class Missile {
 	private volatile double X0;
 	private volatile double Y0;
-	private volatile double V0;
+	private static volatile double V0;
 	private volatile double xNew = 0;
 	private volatile double yNew = 0;
 	private double theta;
 	private double g = 10.0;
 	private volatile boolean bool = true;
-	private volatile boolean running = true;
+	private volatile boolean running;
 	private Point pointPosition;
 	private String name;
 	private Tank tank;
@@ -17,10 +17,11 @@ public class Missile {
 	private final int PLUS2 = 50 * 106 / 180;
 	private final int PLUS2s = 50 * 206 / 180;
 	private final int PLUS3 = 100 * 150 / 500;
-	private int i = 0;
+	private int i = 1;
 	private double t = 0;
 
 	public Missile(Tank tank,String name) {
+                this.V0 = 100;
 		pointPosition = new Point(0, 0);
 		this.tank=tank;
 		this.name=name;
@@ -28,7 +29,7 @@ public class Missile {
 
 	
 	public Point setPosition() {
-		if(running){
+		if(running == true){
 			i++;
 			t=i * 0.005;
 			xNew = X0 + V0 * Math.cos(theta) * t;
@@ -39,7 +40,6 @@ public class Missile {
 			if (-Terrain.getTerrainY((int)getPositionX())>getPositionY()) {
 				running = false;
 				i = 0;
-
 			}
 		}
 
@@ -87,4 +87,15 @@ public class Missile {
 	public void setPositionY(double positionY) {
 		this.pointPosition.setPointY(positionY);
 	}
+        
+        public static void setV0(double V1){
+            V0 = V1;
+        }
+        public static double getV0(){
+            return V0;
+        }
+        
+        public int getI(){
+            return i;
+        }
 }
