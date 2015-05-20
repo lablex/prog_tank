@@ -7,6 +7,7 @@ package jeux_tank;
 
 import javax.swing.JPanel;
 
+
 public class Animation  extends Thread {
 	private volatile boolean avance= false;
 	private volatile boolean tir=false;
@@ -16,7 +17,7 @@ public class Animation  extends Thread {
 	private Missile missile2;
 	private Tank tank1;
 	private Tank tank2;
-	private int count;
+	private static int count;
 
 	public Animation(Missile missile1, Missile missile2, Tank tank1, Tank tank2, JPanel pan) {
 		this.missile1 = missile1;
@@ -60,24 +61,25 @@ public class Animation  extends Thread {
 				try {
 					
 					count++;
-					if(count<100000){
-						
-						altern=false;
-						if(count==9999){
-							avance= false;
-							tir=false;
-							Fenetre.setAvance(true);
-							Fenetre.setTir(true);
-						}
-					}else if(100000<=count && count<200000){
-						altern=true;
-					}else{
-						count=0;
-						avance= false;
-						tir=false;
-						Fenetre.setAvance(true);
-						Fenetre.setTir(true);
-					}
+					if (count < 10000) {
+	                    if (count == 9999) {
+	                        avance = false;
+	                        tir = false;
+	                        Fenetre.setAvance(true);
+	                        Fenetre.setTir(true);
+	                    }
+	                } else {
+	                    if (altern) {
+	                        altern = false;
+	                    } else {
+	                        altern = true;
+	                    }
+	                    count = 0;
+	                    avance = false;
+	                    tir = false;
+	                    Fenetre.setAvance(true);
+	                    Fenetre.setTir(true);
+	                }
 					
 					
 					if(altern){
@@ -151,4 +153,10 @@ public class Animation  extends Thread {
 	public void setTir(boolean tir){
 		this.tir= tir;
 	}
+
+    public static String getTime() {
+        String time = String.valueOf(Math.round(count / 1000 * 1000) / 1000);
+        return time;
+    }
+
 }
