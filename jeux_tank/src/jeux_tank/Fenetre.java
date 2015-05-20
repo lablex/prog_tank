@@ -29,7 +29,7 @@ public class Fenetre extends JFrame implements KeyListener {
 		addKeyListener(this);
 		setFocusable(true);
 		setFocusTraversalKeysEnabled(false);
-		tabJOUEUR[1] = new Tank(IMAGE_PATH_tank, IMAGE_PATH_canon, 100);
+		tabJOUEUR[1] = new Tank(IMAGE_PATH_tank, IMAGE_PATH_canon, 200);
 		tabJOUEUR[0] = new Tank(IMAGE_PATH_tank, IMAGE_PATH_canon, 500);
 		missile1 = new Missile(tabJOUEUR[0], "missile1");
 		missile2 = new Missile(tabJOUEUR[1], "missile2");

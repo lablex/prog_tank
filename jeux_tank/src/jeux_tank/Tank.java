@@ -34,8 +34,6 @@ public class Tank {
 	private int positionCanonX;
 	private final int PLUS = 50 * (106 / 2) / 180;
 	private final int PLUS2 = 50 * 106 / 180;
-	private final int PLUS2s = 50 * 206 / 180;
-	private final int PLUS3 = 100 * 150 / 500;
 	
 	
 	private double TPRIM = 1000;
