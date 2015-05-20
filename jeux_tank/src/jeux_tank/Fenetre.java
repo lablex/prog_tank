@@ -63,9 +63,9 @@ public class Fenetre extends JFrame implements KeyListener {
 		}
 		if(tir){
 			if (c == KeyEvent.VK_ENTER) {
-
+					anim.setStop(false);
 					enter=true;
-                    Missile.setV0(Missile.getV0() + 5);
+					Missile.setV0(Missile.getV0() + 5);
 					avance=false;
 					//anim.setTir(true);
 					anim.setAvance(false);

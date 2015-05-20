@@ -17,6 +17,7 @@ public class Animation  extends Thread {
 	private Missile missile2;
 	private Tank tank1;
 	private Tank tank2;
+	private volatile boolean stop=false;
 	private static int count;
 
 	public Animation(Missile missile1, Missile missile2, Tank tank1, Tank tank2, JPanel pan) {
@@ -83,14 +84,15 @@ public class Animation  extends Thread {
 					
 					
 					if(altern){
-						if(tir && !avance){
+						if(tir && !avance && !stop){
 							if(Fenetre.getEnter()){
-								missile1.setMissile(100);
+								missile1.setMissile(Missile.getV0());
 							}
 							missile1.setPosition();
 							Fenetre.setEnter(false);
 							if(!missile1.getRunning()){
 								missile1.setRunning(true);
+								stop = true;
 							}
 						}
 						if(!tir && avance){
@@ -103,14 +105,15 @@ public class Animation  extends Thread {
 						}
 						
 					}else{
-						if(tir && !avance){
+						if(tir && !avance && !stop){
 							if(Fenetre.getEnter()){
-								missile2.setMissile(100);
+								missile2.setMissile(Missile.getV0());
 							}
 							missile2.setPosition();
 							Fenetre.setEnter(false);
 							if(!missile2.getRunning()){
 								missile2.setRunning(true);
+								stop = true;
 							}
 						}if(!tir && avance){
 							tank2.setPointsTank();
@@ -132,6 +135,14 @@ public class Animation  extends Thread {
 				}
 		}
 
+	}
+	
+	public boolean getStop(){
+		return stop;
+	}
+	
+	public void setStop(boolean stop){
+		this.stop = stop;
 	}
 	
 	public boolean getAltern(){
