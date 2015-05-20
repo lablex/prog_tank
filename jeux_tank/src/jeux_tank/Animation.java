@@ -60,7 +60,7 @@ public class Animation  extends Thread {
 				try {
 					
 					count++;
-					if(count<10000){
+					if(count<100000){
 						
 						altern=false;
 						if(count==9999){
@@ -69,7 +69,7 @@ public class Animation  extends Thread {
 							Fenetre.setAvance(true);
 							Fenetre.setTir(true);
 						}
-					}else if(10000<=count && count<20000){
+					}else if(100000<=count && count<200000){
 						altern=true;
 					}else{
 						count=0;
@@ -82,8 +82,11 @@ public class Animation  extends Thread {
 					
 					if(altern){
 						if(tir && !avance){
-							missile1.setMissile(100);
+							if(Fenetre.getEnter()){
+								missile1.setMissile(100);
+							}
 							missile1.setPosition();
+							Fenetre.setEnter(false);
 							if(!missile1.getRunning()){
 								missile1.setRunning(true);
 							}
@@ -99,8 +102,11 @@ public class Animation  extends Thread {
 						
 					}else{
 						if(tir && !avance){
-							missile2.setMissile(100);
+							if(Fenetre.getEnter()){
+								missile2.setMissile(100);
+							}
 							missile2.setPosition();
+							Fenetre.setEnter(false);
 							if(!missile2.getRunning()){
 								missile2.setRunning(true);
 							}

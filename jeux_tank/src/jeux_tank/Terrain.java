@@ -135,7 +135,12 @@ public class Terrain {
 	}
 
 	public static int getTerrainY(int i) {
-		return TerrainY[i];
+		try{
+			return TerrainY[i];
+			}
+			catch(ArrayIndexOutOfBoundsException e){
+				return -1;
+			}
 	}
 
 	public int[] getTerrainX() {

@@ -17,6 +17,7 @@ public class Fenetre extends JFrame implements KeyListener {
 	private Missile missile1 ;
 	private Missile missile2 ;
 	private Animation anim;
+	private static boolean enter;
 	private static volatile boolean tir = true;
 	private static volatile boolean avance = true;
 
@@ -62,6 +63,7 @@ public class Fenetre extends JFrame implements KeyListener {
 		}
 		if(tir){
 			if (c == KeyEvent.VK_ENTER) {
+					enter=true;
 					avance=false;
 					anim.setTir(true);
 					anim.setAvance(false);
@@ -82,6 +84,12 @@ public class Fenetre extends JFrame implements KeyListener {
 
 	}
 	
+	public static boolean getEnter(){
+		return enter;
+	}
+	public static void setEnter(boolean enterr){
+		enter=enterr;
+	}
 	public static void setTir(boolean tire){
 		tir=tire;
 	}

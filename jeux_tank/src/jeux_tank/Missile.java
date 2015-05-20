@@ -1,11 +1,11 @@
 package jeux_tank;
 
 public class Missile {
-	private volatile double X0;
-	private volatile double Y0;
-	private volatile double V0;
-	private volatile double xNew = 0;
-	private volatile double yNew = 0;
+	private double X0;
+	private double Y0;
+	private double V0;
+	private double xNew = 0;
+	private double yNew = 0;
 	private double theta;
 	private double g = 10.0;
 	private volatile boolean bool = true;
@@ -29,19 +29,20 @@ public class Missile {
 	
 	public Point setPosition() {
 		if(running){
-			i++;
-			t=i * 0.005;
-			xNew = X0 + V0 * Math.cos(theta) * t;
-			pointPosition.setPointX(xNew);
-	
-			yNew = +Y0 - 0.5 * g * Math.pow(t, 2) + V0 * Math.sin(theta) * t;
-			pointPosition.setPointY(yNew);
+
+				i++;
+				t=i * 0.005;
+				xNew = X0 + V0 * Math.cos(theta) * t;
+				pointPosition.setPointX(xNew);
+		
+				yNew = +Y0 - 0.5 * g * Math.pow(t, 2) + V0 * Math.sin(theta) * t;
+				pointPosition.setPointY(yNew);
+			}
 			if (-Terrain.getTerrainY((int)getPositionX())>getPositionY()) {
 				running = false;
 				i = 0;
 
 			}
-		}
 
 		return pointPosition;
 	}
