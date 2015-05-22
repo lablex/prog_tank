@@ -13,47 +13,39 @@ public class Animation  extends Thread {
 	private volatile boolean tir=false;
 	private volatile boolean altern;
 	private JPanel pan;
-	private Missile missile1;
-	private Missile missile2;
 	private Tank tank1;
 	private Tank tank2;
 	private volatile boolean stop=false;
 	private static int count;
+	private Missile[] tabMissile1 =new Missile[3];
+	private Missile[] tabMissile2 =new Missile[3];
 
-	public Animation(Missile missile1, Missile missile2, Tank tank1, Tank tank2, JPanel pan) {
-		this.missile1 = missile1;
-		this.missile2 = missile2;
+	public Animation(Missile[] tabMissile1, Missile[] tabMissile2,Tank tank1, Tank tank2, JPanel pan) {
+		
+		for(int i=0; i<tabMissile1.length; i++){
+			this.tabMissile1[i] = tabMissile1[i];
+			this.tabMissile2[i] = tabMissile2[i];
+		}
+        
 		this.tank1 = tank1;
 		this.tank2 = tank2;
 		this.pan=pan;
 		
-		this.tank1.setPointsTank();
-		this.tank1.setPositionTankX();
-		this.tank1.setPositionTankY();
-		this.tank1.setPositionCanonX();
-		this.tank1.setPositionCanonY();
-		this.tank1.setAngleTank();
-		
-		this.tank2.setPointsTank();
-		this.tank2.setPositionTankX();
-		this.tank2.setPositionTankY();
-		this.tank2.setPositionCanonX();
-		this.tank2.setPositionCanonY();
-		this.tank2.setAngleTank();
-		
-		this.tank1.setPointsTank();
-		this.tank1.setPositionTankX();
-		this.tank1.setPositionTankY();
-		this.tank1.setPositionCanonX();
-		this.tank1.setPositionCanonY();
-		this.tank1.setAngleTank();
-		
-		this.tank2.setPointsTank();
-		this.tank2.setPositionTankX();
-		this.tank2.setPositionTankY();
-		this.tank2.setPositionCanonX();
-		this.tank2.setPositionCanonY();
-		this.tank2.setAngleTank();
+		for(int i=0; i<2; i++){
+			this.tank1.setPointsTank();
+			this.tank1.setPositionTankX();
+			this.tank1.setPositionTankY();
+			this.tank1.setPositionCanonX();
+			this.tank1.setPositionCanonY();
+			this.tank1.setAngleTank();
+			
+			this.tank2.setPointsTank();
+			this.tank2.setPositionTankX();
+			this.tank2.setPositionTankY();
+			this.tank2.setPositionCanonX();
+			this.tank2.setPositionCanonY();
+			this.tank2.setAngleTank();
+		}
 	}
 
 	public void run() {
@@ -62,12 +54,13 @@ public class Animation  extends Thread {
 				try {
 					
 					count++;
-					if (count < 10000) {
-	                    if (count == 9999) {
+					if (count < 30000) {
+	                    if (count == 29999) {
 	                        avance = false;
 	                        tir = false;
 	                        Fenetre.setAvance(true);
 	                        Fenetre.setTir(true);
+	                        Fenetre.setSelectMissile();
 	                    }
 	                } else {
 	                    if (altern) {
@@ -80,18 +73,19 @@ public class Animation  extends Thread {
 	                    tir = false;
 	                    Fenetre.setAvance(true);
 	                    Fenetre.setTir(true);
+	                    Fenetre.setSelectMissile();
 	                }
 					
 					
 					if(altern){
 						if(tir && !avance && !stop){
 							if(Fenetre.getEnter()){
-								missile1.setMissile(Missile.getV0());
+								tabMissile1[Fenetre.getSelectMissile()].setMissile(Missile.getV0());
 							}
-							missile1.setPosition();
+							tabMissile1[Fenetre.getSelectMissile()].setPosition();
 							Fenetre.setEnter(false);
-							if(!missile1.getRunning()){
-								missile1.setRunning(true);
+							if(!tabMissile1[Fenetre.getSelectMissile()].getRunning()){
+								tabMissile1[Fenetre.getSelectMissile()].setRunning(true);
 								stop = true;
 							}
 						}
@@ -107,12 +101,12 @@ public class Animation  extends Thread {
 					}else{
 						if(tir && !avance && !stop){
 							if(Fenetre.getEnter()){
-								missile2.setMissile(Missile.getV0());
+								tabMissile2[Fenetre.getSelectMissile()].setMissile(Missile.getV0());
 							}
-							missile2.setPosition();
+							tabMissile2[Fenetre.getSelectMissile()].setPosition();
 							Fenetre.setEnter(false);
-							if(!missile2.getRunning()){
-								missile2.setRunning(true);
+							if(!tabMissile2[Fenetre.getSelectMissile()].getRunning()){
+								tabMissile2[Fenetre.getSelectMissile()].setRunning(true);
 								stop = true;
 							}
 						}if(!tir && avance){
@@ -129,8 +123,8 @@ public class Animation  extends Thread {
 					Thread.sleep(1);
 					
 				} catch (InterruptedException e) {
-					Thread.currentThread().interrupt(); // Très important de réinterrompre
-					break; // Sortie de la boucle infinie
+					Thread.currentThread().interrupt();
+					break; 
 
 				}
 		}

@@ -1,65 +1,53 @@
 package jeux_tank;
 
-public class Missile {
+import java.awt.Graphics;
 
-	private volatile double X0;
-	private volatile double Y0;
-	private static volatile double V0;
-	private volatile double xNew = 0;
-	private volatile double yNew = 0;
-	private double theta;
-	private double g = 10.0;
-	private volatile boolean bool = true;
-	private volatile boolean running;
-	private Point pointPosition;
-	private String name;
-	private Tank tank;
-	private final int PLUS = 50 * (106 / 2) / 180;
-	private final int PLUS2 = 50 * 106 / 180;
-	private final int PLUS2s = 50 * 206 / 180;
-	private final int PLUS3 = 100 * 150 / 500;
-	private int i = 1;
-	private double t = 0;
+abstract class Missile {
+
+	protected volatile double X0;
+	protected volatile double Y0;
+	protected static volatile double V0;
+	protected volatile double xNew = 0;
+	protected volatile double yNew = 0;
+	protected double theta;
+	protected double g = 10.0;
+	protected volatile boolean bool = true;
+	protected volatile boolean running;
+	protected Point pointPosition;
+	protected String name;
+	protected Tank tank;
+	protected final int PLUS = 50 * (106 / 2) / 180;
+	protected final int PLUS2 = 50 * 106 / 180;
+	protected final int PLUS2s = 50 * 206 / 180;
+	protected final int PLUS3 = 100 * 150 / 500;
+	protected int i = 1;
+	protected double t = 0;
+	protected boolean draw=false;
+	
 
 	public Missile(Tank tank,String name) {
-                this.V0 = 100;
-		pointPosition = new Point(0, 0);
+        V0 = 75;
 		this.tank=tank;
 		this.name=name;
+		pointPosition = new Point(0, 0);
 	}
 
 	
-	public Point setPosition() {
-		if(running){
+	abstract Point setPosition();
+	
+	abstract void drawTrajectoir(Graphics g, Point point, String name);
+	
 
-				i++;
-				t=i * 0.005;
-				xNew = X0 + V0 * Math.cos(theta) * t;
-				pointPosition.setPointX(xNew);
-		
-				yNew = +Y0 - 0.5 * g * Math.pow(t, 2) + V0 * Math.sin(theta) * t;
-				pointPosition.setPointY(yNew);
-			}
-			if (-Terrain.getTerrainY((int)getPositionX())>getPositionY()) {
-				running = false;
-				i = 0;
-			}
-
-		return pointPosition;
-	}
-
-
-	public void setMissile(double V0) {
+	public void setMissile(double V) {
 		pointPosition = new Point(0, 0);
-		this.V0 = V0;
+		V0 = V;
 		this.X0 = Terrain.getTerrainX(tank.getXInt())+ (int) (PLUS2 * Math.sin(tank.getAngleTank()))-10;
 		this.Y0 = -Terrain.getTerrainY(tank.getXInt())+ (int) (PLUS2 * Math.cos(tank.getAngleTank()))+10;
 		this.theta = -tank.getAngleCanon()-tank.getAngleTank();
 		yNew = 0;
 		xNew = 0;
-		
-
 	}
+	
 
 	public boolean getRunning() {
 		return running;
@@ -71,7 +59,6 @@ public class Missile {
 
 	public Point getPosition() {
 		return pointPosition;
-
 	}
 
 	public double getPositionX() {
@@ -90,14 +77,14 @@ public class Missile {
 		this.pointPosition.setPointY(positionY);
 	}
         
-        public static void setV0(double V1){
-            V0 = V1;
-        }
-        public static double getV0(){
-            return V0;
-        }
+    public static void setV0(double V1){
+         V0 = V1;
+    }
+    public static double getV0(){
+        return V0;
+    }
         
-        public int getI(){
-            return i;
-        }
+    public int getI(){
+        return i;
+    }
 }

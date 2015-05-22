@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package jeux_tank;
 
 import java.awt.Graphics2D;
@@ -11,10 +6,6 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.ImageIcon;
 
-/**
- *
- * @author Kevin
- */
 public class Tank {
 
 	private double x = 0;
@@ -27,7 +18,6 @@ public class Tank {
 	private static int width = 50 * (106 / 2) / 180;
 	private final double longueurTank;
 	private static int PXimage = 1000;
-	static int countInstance = 0;
 	private int positionTankX;
 	private int positionTankY;
 	private int positionCanonY;
@@ -46,9 +36,7 @@ public class Tank {
 		tankDroit = new Point(0, 0);
 		angleCanon = 0;
 		this.x=emplacement*ecartXFEN;
-		longueurTank = (Terrain.getNbPoint() * width / PXimage)
-				* Terrain.getEcartX();
-		countInstance += 1;
+		longueurTank = (Terrain.getNbPoint() * width / PXimage)* Terrain.getEcartX();
 	}
 	
 	public void setPointsTank() {
@@ -87,14 +75,12 @@ public class Tank {
 	public void setPositionCanonX() {
 
 		positionCanonX = Terrain.getTerrainX(getXInt()) - 50 + (int) (PLUS2 * Math.sin(getAngleTank()));
-		//System.out.println(PLUS2 * Math.sin(getAngleTank()));
 
 	}
 	
 	public void setPositionCanonY() {
 
 		positionCanonY = Terrain.getTerrainY(getXInt()) - 50 - (int) (PLUS2 * Math.cos(getAngleTank()));
-		//System.out.println("test"+positionCanonY);
 
 	}
 	
@@ -118,11 +104,9 @@ public class Tank {
 	public BufferedImage rotationImageTank(Image image, double degs) {
 		int width = image.getWidth(null);
 		int height = image.getHeight(null);
-		int a = getXInt();
-		BufferedImage temp = new BufferedImage(height, width,
-				BufferedImage.TYPE_4BYTE_ABGR);
+		BufferedImage temp = new BufferedImage(height, width, BufferedImage.TYPE_4BYTE_ABGR);
 		Graphics2D g2 = temp.createGraphics();
-		g2.rotate(degs, width / 2, height / 2); // RÃ©glage de l'angle
+		g2.rotate(degs, width / 2, height / 2);
 		g2.drawImage(image, 0, 0, null);
 		g2.dispose();
 		return temp;
@@ -131,11 +115,9 @@ public class Tank {
 	public BufferedImage rotationImageCanon(Image image, double degs) {
 		int width = image.getWidth(null);
 		int height = image.getHeight(null);
-		int a = getXInt();
-		BufferedImage temp = new BufferedImage(height, width,
-				BufferedImage.TYPE_4BYTE_ABGR);
+		BufferedImage temp = new BufferedImage(height, width, BufferedImage.TYPE_4BYTE_ABGR);
 		Graphics2D g2 = temp.createGraphics();
-		g2.rotate(degs, width / 2, height / 2); // RÃ©glage de l'angle
+		g2.rotate(degs, width / 2, height / 2);
 		g2.drawImage(image, 0, 0, null);
 		g2.dispose();
 		return temp;

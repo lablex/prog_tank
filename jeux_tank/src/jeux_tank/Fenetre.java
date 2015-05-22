@@ -2,11 +2,16 @@ package jeux_tank;
 
 import javax.swing.*;
 
+import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class Fenetre extends JFrame implements KeyListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel pan;
 	private double TPRIM = 1000;
 	private double ecartXFEN = (int) (Terrain.getNbPoint() / TPRIM)* Terrain.getEcartX();
@@ -14,12 +19,13 @@ public class Fenetre extends JFrame implements KeyListener {
 	private final String IMAGE_PATH_canon = "src/jeux_tank/images/canon.png";
 	private Terrain terrain = new Terrain();
 	private Tank[] tabJOUEUR = new Tank[2];
-	private Missile missile1 ;
-	private Missile missile2 ;
+	private Missile[] tabMissile1=new Missile[3] ;
+	private Missile[] tabMissile2 =new Missile[3];
 	private Animation anim;
 	private static boolean enter;
 	private static volatile boolean tir = true;
 	private static volatile boolean avance = true;
+	private static int selectMissile;
 
 	
 
@@ -32,11 +38,19 @@ public class Fenetre extends JFrame implements KeyListener {
 		setFocusTraversalKeysEnabled(false);
 		tabJOUEUR[1] = new Tank(IMAGE_PATH_tank, IMAGE_PATH_canon, 200);
 		tabJOUEUR[0] = new Tank(IMAGE_PATH_tank, IMAGE_PATH_canon, 500);
-		missile1 = new Missile(tabJOUEUR[0], "missile1");
-		missile2 = new Missile(tabJOUEUR[1], "missile2");
-		pan = new Draw(tabJOUEUR, 2, terrain, missile1, missile2);
-		anim = new Animation(missile1, missile2,tabJOUEUR[0], tabJOUEUR[1], pan);
+		
+		tabMissile1[0] = new Obus(tabJOUEUR[0], "obus1");
+		tabMissile1[1] = new TriMissile(tabJOUEUR[0], "triMissile1");
+		tabMissile1[2] = new VerticalMissile(tabJOUEUR[0], "verticalMissile1");
+		
+		tabMissile2[0] = new Obus(tabJOUEUR[1], "obus2");
+		tabMissile2[1] = new TriMissile(tabJOUEUR[1], "triMissile2");
+		tabMissile2[2] = new VerticalMissile(tabJOUEUR[1], "verticalMissile2");
+		
+		pan = new Draw(tabJOUEUR, 2, terrain, tabMissile1, tabMissile2);
+		anim = new Animation(tabMissile1, tabMissile2,tabJOUEUR[0], tabJOUEUR[1], pan);
 		anim.start();
+		getContentPane().setBackground(Color.BLUE);
 		getContentPane().add(pan);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -67,9 +81,20 @@ public class Fenetre extends JFrame implements KeyListener {
 					enter=true;
 					Missile.setV0(Missile.getV0() + 5);
 					avance=false;
-					//anim.setTir(true);
 					anim.setAvance(false);
 				}
+		}
+		
+		if(c== KeyEvent.VK_NUMPAD0){
+			selectMissile=0;
+		}
+		
+		if(c== KeyEvent.VK_NUMPAD1){
+			selectMissile=1;
+		}
+		
+		if(c== KeyEvent.VK_NUMPAD2){
+			selectMissile=2;
 		}
 
 		if (c == KeyEvent.VK_S) {
@@ -84,6 +109,14 @@ public class Fenetre extends JFrame implements KeyListener {
 			tabJOUEUR[1].setAngleCanon(-3.14 / 180, !anim.getAltern());
 		}
 
+	}
+	
+	public static int getSelectMissile(){
+		return selectMissile;
+	}
+	
+	public static void setSelectMissile(){
+		selectMissile=0;
 	}
 	
 	public static boolean getEnter(){

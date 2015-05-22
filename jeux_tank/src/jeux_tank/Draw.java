@@ -8,9 +8,6 @@ package jeux_tank;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Image;
-
-import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 /**
@@ -19,23 +16,28 @@ import javax.swing.JPanel;
  */
 public class Draw extends JPanel {
 
-    private final int taille_image = 50;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private final int taille_image = 50;
     private final int taille_image2 = 100;
-
     protected Terrain terrain;
     protected Tank[] tank;
     protected Point[] pointTerrain;
-    protected Missile missile1;
-    protected Missile missile2;
+    private Missile[] tabMissile1=new Missile[3] ;
+    private Missile[] tabMissile2=new Missile[3] ;
 
-    public Draw(Tank[] tank, int n, Terrain terrain, Missile missile1, Missile missile2) {
-        this.tank = new Tank[n];
-        this.missile1 = missile1;
-        this.missile2 = missile2;
+    public Draw(Tank[] tank, int n, Terrain terrain, Missile[] tabMissile1, Missile[] tabMissile2) {
+        
+    	this.tank = new Tank[n];
         this.terrain = terrain;
-
+        
+        for(int i=0; i<tabMissile1.length; i++){
+			this.tabMissile1[i] = tabMissile1[i];
+			this.tabMissile2[i] = tabMissile2[i];
+		}
         for (int i = 0; i < tank.length; i++) {
-
             this.tank[i] = tank[i];
         }
     }
@@ -45,19 +47,18 @@ public class Draw extends JPanel {
         g.translate(0, 400);
         drawTerrain(g, terrain.getTerrainX(), terrain.getTerrainY());
         drawCiel(g, terrain.getCielX(), terrain.getCielY());
-        g.setColor(Color.RED);
+        g.setColor(Color.BLACK);
         drawTimer(g);
-        drawTrajectoir(g, missile2.getPosition(), "missile2");
-        drawTrajectoir(g, missile1.getPosition(), "missile1");
+        g.setColor(Color.BLACK);
+        tabMissile1[Fenetre.getSelectMissile()].drawTrajectoir(g, tabMissile1[Fenetre.getSelectMissile()].getPosition(), "rrr");
+        tabMissile2[Fenetre.getSelectMissile()].drawTrajectoir(g, tabMissile2[Fenetre.getSelectMissile()].getPosition(), "rrr");
+        
         for (int i = 0; i < tank.length; i++) {
             drawTank(g, tank[i].getPositionTankX(), tank[i].getPositionTankY(), tank[i]);
         }
     }
 
-    public void drawTrajectoir(Graphics g, Point point, String name) {
-        g.drawOval((int) point.getPointX(), -(int) point.getPointY(), 25, 25);
-
-    }
+    
 
     public void repainting() {
         repaint();
