@@ -1,6 +1,11 @@
 package jeux_tank;
 
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.image.ImageObserver;
 import java.util.ArrayList;
+
+import javax.swing.ImageIcon;
 
 public class Terrain {
 	private static Point[] tab;
@@ -17,9 +22,14 @@ public class Terrain {
 	private double coef0 = -70 * Math.random();
 	private double coef2 = -70 * Math.random();
 	private double coef3 = -70 * Math.random();
+	private static int width = 50 * (106 / 2) / 180;
+	private static int PXimage = 1000;
+	private static Image immExp;
+	private final String IMAGE_PATH_explosion = "src/jeux_tank/images/explosion.png";
 
 	public Terrain() {
 		tab = Point.tabPoint(nbPoint);
+		immExp = new ImageIcon(IMAGE_PATH_explosion).getImage();
 		CielX = new int[nbPoint];
 		CielY = new int[nbPoint];
 		TerrainX = new int[nbPoint];
@@ -107,6 +117,10 @@ public class Terrain {
 					CielY[pointUn+nbPoint-1-i] = (int) tab[pointUn+nbPoint-1-i].getPointY();
 					
 				}
+	}
+	
+	public static void explosionAffiche(int x, int y, Graphics g, ImageObserver a) {
+		g.drawImage(immExp, x, y, 75, 75, a);
 	}
 
 	public static int getTerrainX(int i) {

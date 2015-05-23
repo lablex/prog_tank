@@ -1,6 +1,7 @@
 package jeux_tank;
 
 import java.awt.Graphics;
+import java.awt.image.ImageObserver;
 
 abstract class Missile {
 
@@ -48,6 +49,7 @@ abstract class Missile {
 		xNew = 0;
 	}
 	
+	public abstract void drawExp(Graphics g, ImageObserver a);
 
 	public boolean getRunning() {
 		return running;

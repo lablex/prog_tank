@@ -2,15 +2,18 @@ package jeux_tank;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.image.ImageObserver;
 
 public class Obus extends Missile{
 	
+	private boolean drawExp;
 	public Obus(Tank tank, String name) {
 		super(tank, name);
 	}
 	
 	public Point setPosition() {
 		if(running){	
+			drawExp = false;
 			draw=true;
 			i++;
 			t=i * 0.005;
@@ -27,6 +30,7 @@ public class Obus extends Missile{
 			point.setPointX((int)Terrain.getTerrainX((int)getPositionX()));
 			point.setPointY((int)(Terrain.getTerrainY((int)getPositionX())));
 			Terrain.destructionTerrain(50, point, (int)getPositionX());
+			drawExp = true;
 		}
 
 		return pointPosition;
@@ -36,7 +40,15 @@ public class Obus extends Missile{
 		if(draw){
 			g.setColor(Color.BLACK);
 			g.fillOval((int) point.getPointX(), -(int) point.getPointY(), 15, 15);
+			
 		}
 
     }
+	public void drawExp(Graphics g, ImageObserver a){
+		
+		if (drawExp) {
+			Terrain.explosionAffiche(Terrain.getTerrainX((int)getPositionX())-50, Terrain.getTerrainY((int)getPositionX())-50, g, a);
+		}
+	}
+
 }

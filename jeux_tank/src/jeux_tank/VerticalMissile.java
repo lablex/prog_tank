@@ -2,6 +2,7 @@ package jeux_tank;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.image.ImageObserver;
 
 public class VerticalMissile extends Missile{
 
@@ -54,5 +55,11 @@ public class VerticalMissile extends Missile{
 		}
 
     }
+	
+	public void drawExp(Graphics g, ImageObserver a){
+		if (-Terrain.getTerrainY((int)getPositionX())>getPositionY()) {
+			Terrain.explosionAffiche(Terrain.getTerrainX((int)getPositionX()), Terrain.getTerrainY((int)getPositionX()), g, a);
+		}
+	}
 }
 
