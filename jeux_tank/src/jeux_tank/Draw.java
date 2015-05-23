@@ -46,7 +46,7 @@ public class Draw extends JPanel {
 
     public void paintComponent(Graphics g) {
     	g.setColor(Color.BLACK);
-        g.translate(0, 400);
+        g.translate(0, 500);
        drawTerrain(g, terrain.getTerrainX(), terrain.getTerrainY());
        drawCiel(g, terrain.getCielX(), terrain.getCielY());
        g.setColor(Color.WHITE);
@@ -60,8 +60,10 @@ public class Draw extends JPanel {
         for (int i = 0; i < tank.length; i++) {
             drawTank(g, tank[i].getPositionTankX(), tank[i].getPositionTankY(), tank[i]);
         }
+        
+        tank[0].viewAtribu(g);
         g.setColor(Color.YELLOW);
-		g.fillOval(800, -350, 75, 75);
+		g.fillOval(850, -550, 200, 200);
     }
 
     
@@ -71,8 +73,8 @@ public class Draw extends JPanel {
     }
 
     public void drawTimer(Graphics g) {
-        g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
-        g.drawString(Animation.getTime(), 500, -350);
+        g.setFont(new Font("TimesRoman", Font.PLAIN, 40));
+        g.drawString(Animation.getTime(), 500, -450);
     }
 
     public void drawTank(Graphics g, int x, int y, Tank tank) {

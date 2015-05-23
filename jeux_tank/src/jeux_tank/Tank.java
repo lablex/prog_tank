@@ -1,5 +1,8 @@
 package jeux_tank;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -46,6 +49,25 @@ public class Tank {
 			setTankPointGaucheY(Terrain.getTerrainY(getXInt(getX())));
 			setTankPointDroitY(Terrain.getTerrainY(getXInt(getX() + getLongueurTank())));
 
+	}
+	
+	public void viewAtribu(Graphics g){
+		g.setColor(Color.GREEN);
+		g.fillRect(40, -450, 100, 10);
+		g.setColor(Color.BLACK);
+		g.drawRect(40, -450, 100, 10);
+		
+		g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+        g.drawString("vie", 15, -440);
+        
+        g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+        g.drawString("obus = infini", 15, -400);
+        
+        g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+        g.drawString("Tri Missile = "+5, 15, -360);
+        
+        g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+        g.drawString("Vertical Missile = "+1, 15, -320);
 	}
 	
 	public void setPositionTankX() {
