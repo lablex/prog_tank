@@ -8,6 +8,8 @@ package jeux_tank;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+
 import javax.swing.JPanel;
 
 /**
@@ -43,19 +45,21 @@ public class Draw extends JPanel {
     }
 
     public void paintComponent(Graphics g) {
-
+    	g.setColor(Color.BLACK);
         g.translate(0, 400);
-        drawTerrain(g, terrain.getTerrainX(), terrain.getTerrainY());
-        drawCiel(g, terrain.getCielX(), terrain.getCielY());
-        g.setColor(Color.BLACK);
-        drawTimer(g);
-        g.setColor(Color.BLACK);
-        tabMissile1[Fenetre.getSelectMissile()].drawTrajectoir(g, tabMissile1[Fenetre.getSelectMissile()].getPosition(), "rrr");
-        tabMissile2[Fenetre.getSelectMissile()].drawTrajectoir(g, tabMissile2[Fenetre.getSelectMissile()].getPosition(), "rrr");
+       drawTerrain(g, terrain.getTerrainX(), terrain.getTerrainY());
+       drawCiel(g, terrain.getCielX(), terrain.getCielY());
+       g.setColor(Color.WHITE);
+       drawTimer(g);
+       g.setColor(Color.gray);
+       tabMissile1[Fenetre.getSelectMissile()].drawTrajectoir(g, tabMissile1[Fenetre.getSelectMissile()].getPosition(), "rrr");
+       tabMissile2[Fenetre.getSelectMissile()].drawTrajectoir(g, tabMissile2[Fenetre.getSelectMissile()].getPosition(), "rrr");
         
         for (int i = 0; i < tank.length; i++) {
             drawTank(g, tank[i].getPositionTankX(), tank[i].getPositionTankY(), tank[i]);
         }
+        g.setColor(Color.YELLOW);
+		g.fillOval(800, -350, 75, 75);
     }
 
     

@@ -1,5 +1,6 @@
 package jeux_tank;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 public class Obus extends Missile{
@@ -33,7 +34,8 @@ public class Obus extends Missile{
 	
 	public void drawTrajectoir(Graphics g, Point point, String name) {
 		if(draw){
-			g.drawOval((int) point.getPointX(), -(int) point.getPointY(), 15, 15);
+			g.setColor(Color.BLACK);
+			g.fillOval((int) point.getPointX(), -(int) point.getPointY(), 15, 15);
 		}
 
     }

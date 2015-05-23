@@ -34,6 +34,7 @@ public class Fenetre extends JFrame implements KeyListener {
 		this.setTitle("tank");
 		this.setSize(1000, 800);
 		addKeyListener(this);
+		this.setBackground(Color.CYAN);
 		setFocusable(true);
 		setFocusTraversalKeysEnabled(false);
 		tabJOUEUR[1] = new Tank(IMAGE_PATH_tank, IMAGE_PATH_canon, 200);
@@ -79,7 +80,7 @@ public class Fenetre extends JFrame implements KeyListener {
 			if (c == KeyEvent.VK_ENTER) {
 					anim.setStop(false);
 					enter=true;
-					Missile.setV0(Missile.getV0() + 5);
+					//Missile.setV0(Missile.getV0() + 5);
 					avance=false;
 					anim.setAvance(false);
 				}

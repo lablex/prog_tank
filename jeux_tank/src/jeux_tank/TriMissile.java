@@ -1,5 +1,6 @@
 package jeux_tank;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 public class TriMissile extends Missile{
@@ -38,7 +39,7 @@ public class TriMissile extends Missile{
 				separation=true;
 				
 				
-					offset=(int) (i * 0.009);
+					offset=(int) (i * 0.013);
 				
 			}
 			hold = getPositionY();
@@ -59,10 +60,12 @@ public class TriMissile extends Missile{
 	
 	public void drawTrajectoir(Graphics g, Point point, String name) {
 		if(draw){
-			g.drawOval((int) point.getPointX(), -(int) point.getPointY(), 20, 20);
+			g.setColor(Color.BLACK);
+			g.fillOval((int) point.getPointX(), -(int) point.getPointY(), 20, 20);
 	        if(separation){
-		       g.drawOval((int)(point.getPointX()-offset*Math.cos(angleMissile-(3.14159265359/2))), -(int) (point.getPointY()+offset*Math.sin(angleMissile-(3.14159265359/2))), 20, 20);
-		       g.drawOval((int)(point.getPointX()+offset*Math.cos(angleMissile-(3.14159265359/2))), -(int) (point.getPointY()+offset*Math.sin(angleMissile-(3.14159265359/2))), 20, 20);
+	        	g.setColor(Color.BLACK);
+		       g.fillOval((int)(point.getPointX()-offset*Math.cos(1.5*angleMissile-(3.14159265359/2))), -(int) (point.getPointY()+offset*Math.sin(angleMissile/4)), 20, 20);
+		       g.fillOval((int)(point.getPointX()+offset*Math.cos(1.5*angleMissile-(3.14159265359/2))), -(int) (point.getPointY()+offset*Math.sin(angleMissile/4)), 20, 20);
 		        
 	        }
 		}
