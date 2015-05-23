@@ -7,6 +7,8 @@ import java.awt.image.ImageObserver;
 public class Obus extends Missile{
 	
 	private boolean drawExp;
+	private Point pointImpact=new Point(0,0);
+	private volatile boolean test;
 	public Obus(Tank tank, String name) {
 		super(tank, name);
 	}
@@ -22,14 +24,16 @@ public class Obus extends Missile{
 			yNew = +Y0 - 0.5 * g * Math.pow(t, 2) + V0 * Math.sin(theta) * t;
 			pointPosition.setPointY(yNew);
 		}
+		test =-Terrain.getTerrainY((int)getPositionX())>getPositionY();
+		//System.out.println(test);
 		if (-Terrain.getTerrainY((int)getPositionX())>getPositionY()) {
 			running = false;
 			i = 0;
 			draw=false;
-			Point point=new Point(0,0);
-			point.setPointX((int)Terrain.getTerrainX((int)getPositionX()));
-			point.setPointY((int)(Terrain.getTerrainY((int)getPositionX())));
-			Terrain.destructionTerrain(50, point, (int)getPositionX());
+			
+			pointImpact.setPointX((int)Terrain.getTerrainX((int)getPositionX()));
+			pointImpact.setPointY((int)(Terrain.getTerrainY((int)getPositionX())));
+			Terrain.destructionTerrain(50, pointImpact, (int)getPositionX());
 			drawExp = true;
 		}
 
@@ -44,6 +48,20 @@ public class Obus extends Missile{
 		}
 
     }
+	
+	public Point getPointImpact(){
+		return pointImpact;
+	}
+	
+	public void setConditionImpacte(){
+		this.test=false;
+	}
+	
+	public boolean getConditionImpacte(){
+		
+		
+		return test;
+	}
 	public void drawExp(Graphics g, ImageObserver a){
 		
 		if (drawExp) {

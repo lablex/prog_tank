@@ -22,10 +22,13 @@ public class Fenetre extends JFrame implements KeyListener {
 	private Missile[] tabMissile1=new Missile[3] ;
 	private Missile[] tabMissile2 =new Missile[3];
 	private Animation anim;
-	private static boolean enter;
+	private volatile static boolean enter;
 	private static volatile boolean tir = true;
 	private static volatile boolean avance = true;
 	private static int selectMissile;
+	private volatile static boolean verticalMissile;
+	private volatile static boolean triMissileMissile;
+	
 
 	
 
@@ -88,14 +91,17 @@ public class Fenetre extends JFrame implements KeyListener {
 		
 		if(c== KeyEvent.VK_NUMPAD0){
 			selectMissile=0;
+			
 		}
 		
 		if(c== KeyEvent.VK_NUMPAD1){
 			selectMissile=1;
+			triMissileMissile=true;
 		}
 		
 		if(c== KeyEvent.VK_NUMPAD2){
 			selectMissile=2;
+			verticalMissile=true;
 		}
 
 		if (c == KeyEvent.VK_S) {
@@ -110,6 +116,22 @@ public class Fenetre extends JFrame implements KeyListener {
 			tabJOUEUR[1].setAngleCanon(-3.14 / 180, !anim.getAltern());
 		}
 
+	}
+	
+	public static boolean getVerticalMissile(){
+		return verticalMissile;
+	}
+	
+	public static boolean getTriMissileMissile(){
+		return triMissileMissile;
+	}
+	
+	public static void setVerticalMissile(boolean set){
+		verticalMissile=set;
+	}
+	
+	public static void setTriMissileMissile(boolean set){
+		 triMissileMissile=set;
 	}
 	
 	public static int getSelectMissile(){

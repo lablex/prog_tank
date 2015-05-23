@@ -31,6 +31,9 @@ public class Tank {
 	
 	private double TPRIM = 1000;
 	private double ecartXFEN = (int) (Terrain.getNbPoint() / TPRIM)* Terrain.getEcartX();
+	private volatile int vie=100;
+	private volatile int nbVerticalMissile=1;
+	private volatile int nbTriMissile=5;
 
 	public Tank(String IMAGE_PATH_tank, String IMAGE_PATH_canon, int emplacement) {
 		immTank = new ImageIcon(IMAGE_PATH_tank).getImage();
@@ -53,7 +56,7 @@ public class Tank {
 	
 	public void viewAtribu(Graphics g){
 		g.setColor(Color.GREEN);
-		g.fillRect(40, -450, 100, 10);
+		g.fillRect(40, -450, vie, 10);
 		g.setColor(Color.BLACK);
 		g.drawRect(40, -450, 100, 10);
 		
@@ -64,10 +67,39 @@ public class Tank {
         g.drawString("obus = infini", 15, -400);
         
         g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
-        g.drawString("Tri Missile = "+5, 15, -360);
+        g.drawString("Tri Missile = "+nbTriMissile, 15, -360);
         
         g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
-        g.drawString("Vertical Missile = "+1, 15, -320);
+        g.drawString("Vertical Missile = "+nbVerticalMissile, 15, -320);
+	}
+	
+	public void setNbMissile(){
+		if(Fenetre.getEnter() && Fenetre.getTriMissileMissile()){
+			nbTriMissile=nbTriMissile-1;
+			Fenetre.setTriMissileMissile(false);
+		}
+		if(Fenetre.getEnter() && Fenetre.getVerticalMissile()){
+			nbVerticalMissile=nbVerticalMissile-1;
+			Fenetre.setVerticalMissile(false);
+		}
+	}
+	
+	public void setTankVie(Missile missile, int R){
+		double distance1; 
+		double distance2; 
+		
+		if(missile.getConditionImpacte()){
+			
+			
+			distance1 = missile.getPointImpact().distance(tankGauche);
+			distance2 = missile.getPointImpact().distance(tankDroit);
+			System.out.println("distance1 : "+distance1);
+			System.out.println("distance2 : "+distance2);
+			if((int)distance1<=R || (int)distance2<=R){
+				vie=vie-10;
+				missile.setConditionImpacte();
+			}
+		}
 	}
 	
 	public void setPositionTankX() {

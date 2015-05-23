@@ -61,7 +61,16 @@ public class Draw extends JPanel {
             drawTank(g, tank[i].getPositionTankX(), tank[i].getPositionTankY(), tank[i]);
         }
         
-        tank[0].viewAtribu(g);
+        if(Animation.getAltern()){
+        	tank[1].viewAtribu(g);
+        }else{
+        	tank[0].viewAtribu(g);
+        }
+        
+        tank[0].setTankVie(tabMissile2[Fenetre.getSelectMissile()], 30);
+        tank[1].setTankVie(tabMissile1[Fenetre.getSelectMissile()], 30);
+        
+        
         g.setColor(Color.YELLOW);
 		g.fillOval(850, -550, 200, 200);
     }

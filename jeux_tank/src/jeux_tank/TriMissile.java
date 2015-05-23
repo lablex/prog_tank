@@ -13,6 +13,9 @@ public class TriMissile extends Missile{
 	private Point pNew= new Point(0, 0);
 	private Point pHold= new Point(0, 0);
 	private double angleMissile;
+	private Point pointImpact=new Point(0,0);
+	private volatile boolean test;
+	private boolean drawExp;
 	
 	public TriMissile(Tank tank, String name) {
 		super(tank, name);
@@ -21,6 +24,7 @@ public class TriMissile extends Missile{
 	public Point setPosition() {
 		if(running){
 				draw=true;
+				drawExp = false;
 				i++;
 				t=i * 0.005;
 				xNew = X0 + V0 * Math.cos(theta) * t;
@@ -44,16 +48,17 @@ public class TriMissile extends Missile{
 				
 			}
 			hold = getPositionY();
+			test =-Terrain.getTerrainY((int)getPositionX())>getPositionY();
 			if (-Terrain.getTerrainY((int)getPositionX())>getPositionY()) {
 				running = false;
+				drawExp = true;
 				i = 0;
 				offset=0;
 				separation=false;
 				draw=false;
-				Point point=new Point(0,0);
-				point.setPointX((int)Terrain.getTerrainX((int)getPositionX()));
-				point.setPointY((int)(Terrain.getTerrainY((int)getPositionX())));
-				Terrain.destructionTerrain(100, point, (int)getPositionX());
+				pointImpact.setPointX((int)Terrain.getTerrainX((int)getPositionX()));
+				pointImpact.setPointY((int)(Terrain.getTerrainY((int)getPositionX())));
+				Terrain.destructionTerrain(100, pointImpact, (int)getPositionX());
 			}
 
 		return pointPosition;
@@ -71,9 +76,25 @@ public class TriMissile extends Missile{
 	        }
 		}
     }
-	public void drawExp(Graphics g, ImageObserver a){
-		if (-Terrain.getTerrainY((int)getPositionX())>getPositionY()) {
-			Terrain.explosionAffiche(Terrain.getTerrainX((int)getPositionX()), Terrain.getTerrainY((int)getPositionX()), g, a);
+public void drawExp(Graphics g, ImageObserver a){
+		
+		if (drawExp) {
+			Terrain.explosionAffiche(Terrain.getTerrainX((int)getPositionX())-50, Terrain.getTerrainY((int)getPositionX())-50, g, a);
 		}
+	}
+
+
+	public Point getPointImpact(){
+		return pointImpact;
+	}
+	
+	public void setConditionImpacte(){
+		this.test=false;
+	}
+	
+	public boolean getConditionImpacte(){
+		
+		
+		return test;
 	}
 }

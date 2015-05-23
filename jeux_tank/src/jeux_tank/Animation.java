@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 public class Animation  extends Thread {
 	private volatile boolean avance= false;
 	private volatile boolean tir=false;
-	private volatile boolean altern;
+	private volatile static boolean altern= false;
 	private JPanel pan;
 	private Tank tank1;
 	private Tank tank2;
@@ -54,8 +54,8 @@ public class Animation  extends Thread {
 				try {
 					
 					count++;
-					if (count < 30000) {
-	                    if (count == 29999) {
+					if (count < 10000) {
+	                    if (count == 9999) {
 	                        avance = false;
 	                        tir = false;
 	                        Fenetre.setAvance(true);
@@ -83,6 +83,8 @@ public class Animation  extends Thread {
 								tabMissile1[Fenetre.getSelectMissile()].setMissile(Missile.getV0());
 							}
 							tabMissile1[Fenetre.getSelectMissile()].setPosition();
+							tank1.setNbMissile();
+					        
 							Fenetre.setEnter(false);
 							if(!tabMissile1[Fenetre.getSelectMissile()].getRunning()){
 								tabMissile1[Fenetre.getSelectMissile()].setRunning(true);
@@ -118,6 +120,7 @@ public class Animation  extends Thread {
 								tabMissile2[Fenetre.getSelectMissile()].setMissile(Missile.getV0());
 							}
 							tabMissile2[Fenetre.getSelectMissile()].setPosition();
+							tank2.setNbMissile();
 							Fenetre.setEnter(false);
 							if(!tabMissile2[Fenetre.getSelectMissile()].getRunning()){
 								tabMissile2[Fenetre.getSelectMissile()].setRunning(true);
@@ -167,7 +170,7 @@ public class Animation  extends Thread {
 		this.stop = stop;
 	}
 	
-	public boolean getAltern(){
+	public static boolean getAltern(){
 		return altern;
 	}
 	

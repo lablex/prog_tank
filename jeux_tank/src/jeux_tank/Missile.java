@@ -67,6 +67,10 @@ abstract class Missile {
 		return pointPosition.getPointX();
 	}
 
+	abstract boolean getConditionImpacte();
+	abstract void setConditionImpacte();
+	abstract Point getPointImpact();
+	
 	public double getPositionY() {
 		return pointPosition.getPointY();
 	}

@@ -3,7 +3,6 @@ package jeux_tank;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.ImageObserver;
-import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
@@ -22,8 +21,6 @@ public class Terrain {
 	private double coef0 = -70 * Math.random();
 	private double coef2 = -70 * Math.random();
 	private double coef3 = -70 * Math.random();
-	private static int width = 50 * (106 / 2) / 180;
-	private static int PXimage = 1000;
 	private static Image immExp;
 	private final String IMAGE_PATH_explosion = "src/jeux_tank/images/explosion.png";
 
@@ -90,10 +87,7 @@ public class Terrain {
 	}
 
 	public static void destructionTerrain(int R, Point pointImpact, int a) {
-		double x;
 		double y;
-		double theta;
-		double theta2;
 		double increTheta;
 		int nbPoint=1;
 		double distance;

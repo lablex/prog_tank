@@ -8,6 +8,9 @@ public class VerticalMissile extends Missile{
 
 	private double hold= getPositionY()-5;
 	private boolean stopp=false;
+	private Point pointImpact=new Point(0,0);
+	private volatile boolean test;
+	private boolean drawExp;
 	
 	
 	public VerticalMissile(Tank tank, String name) {
@@ -16,6 +19,7 @@ public class VerticalMissile extends Missile{
 	
 	public Point setPosition() {
 		if(running){
+			drawExp = false;
 			draw=true;
 			if(!stopp){
 				i++;
@@ -34,15 +38,16 @@ public class VerticalMissile extends Missile{
 			stopp=true;		
 		}
 		hold = getPositionY();
+		test =-Terrain.getTerrainY((int)getPositionX())>getPositionY();
 		if (-Terrain.getTerrainY((int)getPositionX())>getPositionY()) {
 			draw=false;
+			drawExp = true;
 			running = false;
 			i = 0;
 			stopp=false;
-			Point point=new Point(0,0);
-			point.setPointX((int)Terrain.getTerrainX((int)getPositionX()));
-			point.setPointY((int)(Terrain.getTerrainY((int)getPositionX())));
-			Terrain.destructionTerrain(150, point, (int)getPositionX());
+			pointImpact.setPointX((int)Terrain.getTerrainX((int)getPositionX()));
+			pointImpact.setPointY((int)(Terrain.getTerrainY((int)getPositionX())));
+			Terrain.destructionTerrain(100, pointImpact, (int)getPositionX());
 		}
 
 		return pointPosition;
@@ -56,10 +61,25 @@ public class VerticalMissile extends Missile{
 
     }
 	
-	public void drawExp(Graphics g, ImageObserver a){
-		if (-Terrain.getTerrainY((int)getPositionX())>getPositionY()) {
-			Terrain.explosionAffiche(Terrain.getTerrainX((int)getPositionX()), Terrain.getTerrainY((int)getPositionX()), g, a);
+public void drawExp(Graphics g, ImageObserver a){
+		
+		if (drawExp) {
+			Terrain.explosionAffiche(Terrain.getTerrainX((int)getPositionX())-50, Terrain.getTerrainY((int)getPositionX())-50, g, a);
 		}
+	}
+
+	public Point getPointImpact(){
+		return pointImpact;
+	}
+	
+	public void setConditionImpacte(){
+		this.test=false;
+	}
+	
+	public boolean getConditionImpacte(){
+		
+		
+		return test;
 	}
 }
 
