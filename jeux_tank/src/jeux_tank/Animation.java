@@ -88,6 +88,20 @@ public class Animation  extends Thread {
 								tabMissile1[Fenetre.getSelectMissile()].setRunning(true);
 								stop = true;
 							}
+							
+							this.tank1.setPointsTank();
+							this.tank1.setPositionTankX();
+							this.tank1.setPositionTankY();
+							this.tank1.setPositionCanonX();
+							this.tank1.setPositionCanonY();
+							this.tank1.setAngleTank();
+							
+							this.tank2.setPointsTank();
+							this.tank2.setPositionTankX();
+							this.tank2.setPositionTankY();
+							this.tank2.setPositionCanonX();
+							this.tank2.setPositionCanonY();
+							this.tank2.setAngleTank();
 						}
 						if(!tir && avance){
 							tank1.setPointsTank();
@@ -117,6 +131,20 @@ public class Animation  extends Thread {
 							tank2.setPositionCanonY();
 							tank2.setAngleTank();
 						}
+						
+						this.tank1.setPointsTank();
+						this.tank1.setPositionTankX();
+						this.tank1.setPositionTankY();
+						this.tank1.setPositionCanonX();
+						this.tank1.setPositionCanonY();
+						this.tank1.setAngleTank();
+						
+						this.tank2.setPointsTank();
+						this.tank2.setPositionTankX();
+						this.tank2.setPositionTankY();
+						this.tank2.setPositionCanonX();
+						this.tank2.setPositionCanonY();
+						this.tank2.setAngleTank();
 					}
 					
 					pan.repaint();

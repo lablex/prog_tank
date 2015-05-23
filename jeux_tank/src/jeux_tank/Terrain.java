@@ -1,7 +1,9 @@
 package jeux_tank;
 
+import java.util.ArrayList;
+
 public class Terrain {
-	private Point[] tab;
+	private static Point[] tab;
 	private static int TerrainX[];
 	private static int TerrainY[];
 	private static int CielX[];
@@ -28,10 +30,10 @@ public class Terrain {
 
 		for (int i = 1; i < nbPoint - 1; i++) {
 
-			tab[i].setPointX(incrementx);
+			tab[i].setPointX((int) incrementx);
 			TerrainX[i] = (int) tab[i].getPointX();
 			CielX[i] = (int) tab[i].getPointX();
-			tab[i].setPointY(coef0 * Math.sin(1 * w * incrementy) + coef1
+			tab[i].setPointY((int)(coef0 * Math.sin(1 * w * incrementy) + coef1
 					* Math.sin(2 * w * incrementy) + 60
 					* Math.sin(3 * w * incrementy) + 15
 					* Math.sin(4 * w * incrementy) + 10
@@ -42,7 +44,7 @@ public class Terrain {
 					* Math.cos(3 * w * incrementy) + 5
 					* Math.cos(4 * w * incrementy) + 8
 					* Math.cos(5 * w * incrementy) + 5
-					* Math.cos(6 * w * incrementy));
+					* Math.cos(6 * w * incrementy)));
 			TerrainY[i] = (int) tab[i].getPointY();
 			CielY[i] = (int) tab[i].getPointY();
 
@@ -77,33 +79,43 @@ public class Terrain {
 
 	}
 
-	public void destructionTerrain(int[] tabIndice, int R, Point impact,
-			Point[] tab) {
+	public static void destructionTerrain(int R, Point pointImpact, int a) {
 		double x;
 		double y;
 		double theta;
+		double theta2;
 		double increTheta;
-		if (tab[tabIndice.length - 1].penteTarrain(impact)) {
-			theta = impact.angle(tab[tabIndice.length - 1]);
-			increTheta = 2;
+		int nbPoint=1;
+		double distance;
+		int pointUn=0;
+    	for (int i = 0; i < tab.length; i++) {
+    		distance = pointImpact.distance(tab[i]);
+    		if ((int)distance <= R) {
+    			if(nbPoint==1){
+    			pointUn=i;
+    			}
+                nbPoint++;
+            }
+    	}
 
-			for (int i = 0; i < tabIndice.length; i++) {
-				if (i > 0 && i < tabIndice.length - 1) {
-					x = impact.getPointX() + R
-							* Math.cos(theta - i * increTheta);
-					y = impact.getPointY() + R
-							* Math.sin(theta - i * increTheta);
-					tab[i].setPointX(x);
-					tab[i].setPointY(y);
+		increTheta =3.14/(nbPoint-1);
+
+			for (int i =0; i < nbPoint-1; i++) {
+					y = tab[pointUn+nbPoint-1-i].getPointY()+30* Math.sin(i * increTheta) ;
+					tab[pointUn+nbPoint-1-i].setPointY(y);
+					TerrainY[pointUn+nbPoint-1-i] = (int) tab[pointUn+nbPoint-1-i].getPointY();
+					CielY[pointUn+nbPoint-1-i] = (int) tab[pointUn+nbPoint-1-i].getPointY();
+					
 				}
-			}
-		} else {
-
-		}
 	}
 
 	public static int getTerrainX(int i) {
+		try{
 		return TerrainX[i];
+		}
+		catch(ArrayIndexOutOfBoundsException e){
+			return -1000;
+		}
 	}
 
 	public static int getTerrainY(int i) {
@@ -135,8 +147,8 @@ public class Terrain {
 		return (int) T;
 	}
 
-	public Point[] getTab() {
-		return this.tab;
+	public static Point[] getTab() {
+		return tab;
 	}
 
 	public static double getEcartX() {

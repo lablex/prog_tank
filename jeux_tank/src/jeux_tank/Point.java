@@ -13,16 +13,22 @@ public class Point {
     }
 
     public double distance(Point a) {
-        double dist = Math.sqrt(Math.pow(a.getPointX() - getPointX(), 2) + (Math.pow(a.getPointY() - getPointY(), 2)));
+        double dist = Math.sqrt(Math.pow(a.getPointX() - this.getPointX(), 2) + (Math.pow(a.getPointY() - this.getPointY(), 2)));
         return dist;
     }
 
     //Distance entre deux points
-    public double distance(Point point1, Point point2) {
+    public static double distance(Point point1, Point point2) {
         double dx = point1.getPointX() - point2.getPointX();
         double dy = point1.getPointY() - point2.getPointY();
         double dis = Math.sqrt(dx * dx + dy * dy);
         return dis;
+    }
+    
+    public static double triAngle(Point a, Point b, Point c){
+    	double angle;
+    	angle=Math.acos((Math.pow(distance(a,c), 2)-Math.pow(distance(c,b), 2)-Math.pow(distance(a,b), 2))/(-2*distance(c,b)*distance(a,b)));
+    	return angle;
     }
 
     public double distanceX(Point a) {
@@ -70,7 +76,7 @@ public class Point {
 
     public double angle(Point a) {
         double theta = 0;
-        theta = Math.acos((Math.abs(a.getPointX() - this.getPointX())) / (this.distance(a)));
+        theta = Math.atan((Math.abs(a.getPointX() - this.getPointX())) / (Math.abs(a.getPointY() - this.getPointY())));
         return theta;
     }
     
@@ -111,7 +117,18 @@ public class Point {
 
         return 0;
     }
-
+    public static ArrayList<Point> portionDestruction(Point[] tabPointTerrain, Point pointImpact, int R){
+    	double distance;
+    	ArrayList<Point> tabPoint = new ArrayList<Point>();
+    	for (int i = 0; i < tabPointTerrain.length; i++) {
+    		distance = pointImpact.distance(tabPointTerrain[i]);
+    		if (distance <= R) {
+                tabPoint.add(tabPointTerrain[i]);
+            }
+    	}
+    	return tabPoint;
+    	
+    }
     public static int[] groupPointIndice(int indice, int R, Point[] tab, int tailleTab) {
         double rayon;
         ArrayList<Point> tabPoint = new ArrayList<Point>();

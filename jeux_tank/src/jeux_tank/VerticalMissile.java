@@ -37,6 +37,10 @@ public class VerticalMissile extends Missile{
 			running = false;
 			i = 0;
 			stopp=false;
+			Point point=new Point(0,0);
+			point.setPointX((int)Terrain.getTerrainX((int)getPositionX()));
+			point.setPointY((int)(Terrain.getTerrainY((int)getPositionX())));
+			Terrain.destructionTerrain(150, point, (int)getPositionX());
 		}
 
 		return pointPosition;
@@ -44,7 +48,7 @@ public class VerticalMissile extends Missile{
 	
 	public void drawTrajectoir(Graphics g, Point point, String name) {
 		if(draw){
-			g.drawOval((int) point.getPointX(), -(int) point.getPointY(), 25, 25);
+			g.drawOval((int) point.getPointX(), -(int) point.getPointY(), 20, 20);
 		}
 
     }

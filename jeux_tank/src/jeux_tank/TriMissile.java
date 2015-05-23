@@ -48,6 +48,10 @@ public class TriMissile extends Missile{
 				offset=0;
 				separation=false;
 				draw=false;
+				Point point=new Point(0,0);
+				point.setPointX((int)Terrain.getTerrainX((int)getPositionX()));
+				point.setPointY((int)(Terrain.getTerrainY((int)getPositionX())));
+				Terrain.destructionTerrain(100, point, (int)getPositionX());
 			}
 
 		return pointPosition;
@@ -55,10 +59,10 @@ public class TriMissile extends Missile{
 	
 	public void drawTrajectoir(Graphics g, Point point, String name) {
 		if(draw){
-			g.drawOval((int) point.getPointX(), -(int) point.getPointY(), 25, 25);
+			g.drawOval((int) point.getPointX(), -(int) point.getPointY(), 20, 20);
 	        if(separation){
-		       g.drawOval((int)(point.getPointX()-offset*Math.cos(angleMissile-(3.14159265359/2))), -(int) (point.getPointY()+offset*Math.sin(angleMissile-(3.14159265359/2))), 25, 25);
-		       g.drawOval((int)(point.getPointX()+offset*Math.cos(angleMissile-(3.14159265359/2))), -(int) (point.getPointY()+offset*Math.sin(angleMissile-(3.14159265359/2))), 25, 25);
+		       g.drawOval((int)(point.getPointX()-offset*Math.cos(angleMissile-(3.14159265359/2))), -(int) (point.getPointY()+offset*Math.sin(angleMissile-(3.14159265359/2))), 20, 20);
+		       g.drawOval((int)(point.getPointX()+offset*Math.cos(angleMissile-(3.14159265359/2))), -(int) (point.getPointY()+offset*Math.sin(angleMissile-(3.14159265359/2))), 20, 20);
 		        
 	        }
 		}

@@ -22,6 +22,10 @@ public class Obus extends Missile{
 			running = false;
 			i = 0;
 			draw=false;
+			Point point=new Point(0,0);
+			point.setPointX((int)Terrain.getTerrainX((int)getPositionX()));
+			point.setPointY((int)(Terrain.getTerrainY((int)getPositionX())));
+			Terrain.destructionTerrain(50, point, (int)getPositionX());
 		}
 
 		return pointPosition;
@@ -29,7 +33,8 @@ public class Obus extends Missile{
 	
 	public void drawTrajectoir(Graphics g, Point point, String name) {
 		if(draw){
-			g.drawOval((int) point.getPointX(), -(int) point.getPointY(), 25, 25);
+			g.drawOval((int) point.getPointX(), -(int) point.getPointY(), 15, 15);
 		}
+
     }
 }
