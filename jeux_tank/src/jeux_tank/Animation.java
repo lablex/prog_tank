@@ -15,10 +15,13 @@ public class Animation extends Thread {
     private JPanel pan;
     private Tank tank1;
     private Tank tank2;
-    private volatile boolean stop = false;
     private static int count;
     private Missile[] tabMissile1 = new Missile[3];
     private Missile[] tabMissile2 = new Missile[3];
+    public static boolean choix_missile2 = true;
+    public static boolean continu = false;
+    public static boolean tir_missile2 = false;
+    public static boolean tir_missile1 = false;
 
     public Animation(Missile[] tabMissile1, Missile[] tabMissile2, Tank tank1, Tank tank2, JPanel pan) {
 
@@ -45,6 +48,7 @@ public class Animation extends Thread {
             this.tank2.setPositionCanonX();
             this.tank2.setPositionCanonY();
             this.tank2.setAngleTank();
+
         }
     }
 
@@ -54,14 +58,8 @@ public class Animation extends Thread {
             try {
 
                 count++;
-                if (count < 10000) {
-                    if (count == 9999) {
-                        avance = false;
-                        tir = false;
-                        Fenetre.setAvance(true);
-                        Fenetre.setTir(true);
-                        Fenetre.setSelectMissile();
-                    }
+
+                if (count < 9000) {
                 } else {
                     if (altern) {
                         altern = false;
@@ -69,30 +67,91 @@ public class Animation extends Thread {
                         altern = true;
                     }
                     count = 0;
-                    avance = false;
-                    tir = false;
+                    if (Missile.getStop()) {
+                        avance = false;
+                        tir = false;
+                    }
                     Fenetre.setAvance(true);
                     Fenetre.setTir(true);
-                    Fenetre.setSelectMissile();
+                    if(!tir_missile2 && !tir_missile1)
+                        Fenetre.setSelectMissile();
+                }
+                // Gestion alternance des tanks
+                if (tir_missile2) {
+                    if (!Missile.detection && altern) {
+                        Fenetre.setAvance(false);
+                        tir_missile(tabMissile2, tank2);
+                        continu = true;
+                        count = 0;
+                    } else if (Missile.detection && altern) {
+                        Missile.setV0(75);
+                        Fenetre.setTir(true);
+                        Fenetre.setAvance(true);
+                        Fenetre.setSelectMissile();
+                        continu = false;
+                        choix_missile2 = false;
+                        tir_missile2 = false;
+                        tir = false;
+                        count = 0;
+                        Fenetre.setEnter(false);
+
+                    } else if (altern && Missile.getStop()) {
+                        choix_missile2 = false;
+                        tir_missile2 = false;
+                    }
+
+                } else if (altern && !tir_missile2) {
+                    choix_missile2 = false;
+                }
+                if (tir_missile1) {
+                    if (!Missile.detection2 && !altern) {
+                        Fenetre.setAvance(false);
+                        tir_missile(tabMissile1, tank1);
+                        continu = true;
+                        count = 0;
+                    } else if (Missile.detection2 && !altern) {
+                        Missile.setV0(75);
+                        Fenetre.setTir(true);
+                        Fenetre.setAvance(true);
+                        Fenetre.setSelectMissile();
+                        continu = false;
+                        choix_missile2 = true;
+                        tir_missile1 = false;
+                        tir = false;
+                        count = 0;
+                        Fenetre.setEnter(false);
+                    } else if (!altern) {
+                        choix_missile2 = true;
+                    }
+
+                } else if (!altern && !tir_missile1) {
+                    choix_missile2 = true;
                 }
 
-                if (altern) {
-                    if (tir && !avance && !stop) {
-                        tir_missile(tabMissile1, tank1, tank2);
-                        init(tank1);
-                        init(tank2);
+                if (tir) {
+                    if (!altern && !continu && choix_missile2 == true) {
+                        Fenetre.setAvance(false);
+                        //Fenetre.setSelectMissile();
+                        tir_missile(tabMissile2, tank2);
+                        tir_missile2 = true;
+                    } else if (altern && !continu && choix_missile2 == false) {
+                        Fenetre.setAvance(false);
+                        //Fenetre.setSelectMissile();
+                        tir_missile(tabMissile1, tank1);
+                        tir_missile1 = true;
                     }
-                    avance(tank1);
-
-                } else {
-                    if (tir && !avance && !stop) {
-                        tir_missile(tabMissile2, tank2, tank1);
+                } else if (avance) {
+                    if (altern) {
+                        Fenetre.setAvance(true);
+                        avance(tank1);
                     }
-                    avance(tank2);
-                    init(tank1);
-                    init(tank2);
+                    if (!altern) {
+                        Fenetre.setAvance(true);
+                        avance(tank2);
+                    }
                 }
-
+                init(tank1);
+                init(tank2);
                 pan.repaint();
                 Thread.sleep(1);
 
@@ -103,14 +162,6 @@ public class Animation extends Thread {
             }
         }
 
-    }
-
-    public boolean getStop() {
-        return stop;
-    }
-
-    public void setStop(boolean stop) {
-        this.stop = stop;
     }
 
     public static boolean getAltern() {
@@ -138,32 +189,29 @@ public class Animation extends Thread {
         return time;
     }
 
-    public void tir(Missile missile) {
-        if (tir && !avance && !stop) {
-            missile.setMissile(Missile.getV0());
-            missile.setPosition();
-            if (!missile.getRunning()) {
-                missile.setRunning(true);
+    public void tir(Missile[] tabMissile1) {
+        if (tir && !avance && Missile.getStop() == false) {
+            tabMissile1[Fenetre.getSelectMissile()].setMissile(Missile.getV0());
+            tabMissile1[Fenetre.getSelectMissile()].setPosition();
+            if (!tabMissile1[Fenetre.getSelectMissile()].getRunning()) {
+                tabMissile1[Fenetre.getSelectMissile()].setRunning(true);
             }
-            //Fenetre.setAvance(false);
         }
-        //missile.verification();
+        tabMissile1[Fenetre.getSelectMissile()].verification();
 
     }
 
-    public void tir_missile(Missile[] tabMissile1, Tank tank1, Tank tank2) {
-
-        if (Fenetre.getEnter()) {
+    public void tir_missile(Missile[] tabMissile1, Tank tank) {
+        if (tir && !avance && Missile.getStop() == false) {
             tabMissile1[Fenetre.getSelectMissile()].setMissile(Missile.getV0());
-        }
-        tabMissile1[Fenetre.getSelectMissile()].setPosition();
-        tank1.setNbMissile();
+            tabMissile1[Fenetre.getSelectMissile()].setPosition();
+            tank.setNbMissile();
+            if (!tabMissile1[Fenetre.getSelectMissile()].getRunning()) {
+                tabMissile1[Fenetre.getSelectMissile()].setRunning(true);
+            }
 
-        Fenetre.setEnter(false);
-        if (!tabMissile1[Fenetre.getSelectMissile()].getRunning()) {
-            tabMissile1[Fenetre.getSelectMissile()].setRunning(true);
-            stop = true;
         }
+        tabMissile1[Fenetre.getSelectMissile()].verification();
 
     }
 
@@ -175,7 +223,6 @@ public class Animation extends Thread {
             tank.setPositionCanonX();
             tank.setPositionCanonY();
             tank.setAngleTank();
-            //Fenetre.setTir(false);
         }
 
     }
