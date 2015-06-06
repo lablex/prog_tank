@@ -73,20 +73,20 @@ public class Draw extends JPanel {
             tank[0].setTankVie(tabMissile2[Fenetre.getSelectMissile()], 30);
             tank[1].setTankVie(tabMissile1[Fenetre.getSelectMissile()], 30);
 
-            if (Missile.detection) {
+            if (Animation.choix_missile2) {
                 tour_joueur_2 = true;
-            } else if (Missile.detection2) {
+            } else {
                 tour_joueur_2 = false;
             }
 
             if (tour_joueur_2 == true) {
                 g.setColor(Color.WHITE);
                 g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
-                g.drawString("Tour du joueur 1", 442, -300);
+                g.drawString("Tour du joueur 2", 442, -300);
             } else {
                 g.setColor(Color.WHITE);
                 g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
-                g.drawString("Tour du joueur 2", 442, -300);
+                g.drawString("Tour du joueur 1", 442, -300);
             }
 
             g.setColor(Color.YELLOW);
