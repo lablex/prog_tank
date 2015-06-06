@@ -29,6 +29,7 @@ public class Draw extends JPanel {
     protected Point[] pointTerrain;
     private Missile[] tabMissile1 = new Missile[3];
     private Missile[] tabMissile2 = new Missile[3];
+    private boolean tour_joueur_2 = true;
 
     public Draw(Tank[] tank, int n, Terrain terrain, Missile[] tabMissile1, Missile[] tabMissile2) {
 
@@ -73,10 +74,16 @@ public class Draw extends JPanel {
             tank[1].setTankVie(tabMissile1[Fenetre.getSelectMissile()], 30);
 
             if (Missile.detection) {
+                tour_joueur_2 = true;
+            } else if (Missile.detection2) {
+                tour_joueur_2 = false;
+            }
+
+            if (tour_joueur_2 == true) {
                 g.setColor(Color.WHITE);
                 g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
                 g.drawString("Tour du joueur 1", 442, -300);
-            } else if (Missile.detection2){
+            } else {
                 g.setColor(Color.WHITE);
                 g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
                 g.drawString("Tour du joueur 2", 442, -300);
