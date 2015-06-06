@@ -41,7 +41,8 @@ public class Animation extends Thread {
             this.tank1.setPositionCanonX();
             this.tank1.setPositionCanonY();
             this.tank1.setAngleTank();
-
+           // this.tank1.setAngleCanon(30,true);
+            
             this.tank2.setPointsTank();
             this.tank2.setPositionTankX();
             this.tank2.setPositionTankY();
@@ -120,8 +121,9 @@ public class Animation extends Thread {
                         tir = false;
                         count = 0;
                         Fenetre.setEnter(false);
-                    } else if (!altern) {
+                    } else if (!altern  && Missile.getStop()) {
                         choix_missile2 = true;
+                        tir_missile1 = false;
                     }
 
                 } else if (!altern && !tir_missile1) {
@@ -209,8 +211,8 @@ public class Animation extends Thread {
             if (!tabMissile1[Fenetre.getSelectMissile()].getRunning()) {
                 tabMissile1[Fenetre.getSelectMissile()].setRunning(true);
             }
-
         }
+        Fenetre.missile = false;
         tabMissile1[Fenetre.getSelectMissile()].verification();
 
     }
@@ -237,4 +239,5 @@ public class Animation extends Thread {
         tank.setAngleTank();
 
     }
+    
 }

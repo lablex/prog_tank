@@ -3,6 +3,8 @@ package jeux_tank;
 import javax.swing.*;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -25,6 +27,7 @@ public class Fenetre extends JFrame implements KeyListener {
     private volatile static boolean enter;
     private static volatile boolean tir = true;
     private static volatile boolean avance = true;
+    protected static volatile boolean missile = true;
     private static int selectMissile;
     private volatile static boolean verticalMissile;
     private volatile static boolean triMissileMissile;
@@ -51,6 +54,7 @@ public class Fenetre extends JFrame implements KeyListener {
         pan = new Draw(tabJOUEUR, 2, terrain, tabMissile1, tabMissile2);
         anim = new Animation(tabMissile1, tabMissile2, tabJOUEUR[0], tabJOUEUR[1], pan);
         anim.start();
+       // timer.start();
         getContentPane().setBackground(Color.BLUE);
         getContentPane().add(pan);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -85,34 +89,37 @@ public class Fenetre extends JFrame implements KeyListener {
                 anim.setAvance(false);
             }
         }
+        if (missile) {
+            if (c == KeyEvent.VK_NUMPAD0) {
+                selectMissile = 0;
 
-        if (c == KeyEvent.VK_NUMPAD0) {
-            selectMissile = 0;
+            }
 
+            if (c == KeyEvent.VK_NUMPAD1) {
+                selectMissile = 1;
+                triMissileMissile = true;
+            }
+
+            if (c == KeyEvent.VK_NUMPAD2) {
+                selectMissile = 2;
+                verticalMissile = true;
+            }
+         //  tir = false;
+         //   avance = false;
         }
+        if (this.getEnter() == false) {
+            if (c == KeyEvent.VK_S) {
 
-        if (c == KeyEvent.VK_NUMPAD1) {
-            selectMissile = 1;
-            triMissileMissile = true;
+                tabJOUEUR[0].setAngleCanon(3.14 / 180, Animation.getAltern());
+                tabJOUEUR[1].setAngleCanon(3.14 / 180, !Animation.getAltern());
+
+            }
+            if (c == KeyEvent.VK_Z) {
+
+                tabJOUEUR[0].setAngleCanon(-3.14 / 180, Animation.getAltern());
+                tabJOUEUR[1].setAngleCanon(-3.14 / 180, !Animation.getAltern());
+            }
         }
-
-        if (c == KeyEvent.VK_NUMPAD2) {
-            selectMissile = 2;
-            verticalMissile = true;
-        }
-if (this.getEnter() == false) {
-        if (c == KeyEvent.VK_S) {
-
-            tabJOUEUR[0].setAngleCanon(3.14 / 180, Animation.getAltern());
-            tabJOUEUR[1].setAngleCanon(3.14 / 180, !Animation.getAltern());
-
-        }
-        if (c == KeyEvent.VK_Z) {
-
-            tabJOUEUR[0].setAngleCanon(-3.14 / 180, Animation.getAltern());
-            tabJOUEUR[1].setAngleCanon(-3.14 / 180, !Animation.getAltern());
-        }
-}
     }
 
     public static boolean getVerticalMissile() {
@@ -159,13 +166,14 @@ if (this.getEnter() == false) {
     }
 
     public void keyReleased(KeyEvent e) {
-         int c = e.getKeyCode();
-        
+        int c = e.getKeyCode();
+
         if (avance == false && c == KeyEvent.VK_ENTER) {
-             
+
             anim.setTir(true);
             this.setEnter(true);
             Missile.setStop(false);
         }
     }
+    
 }

@@ -19,63 +19,81 @@ import javax.swing.JPanel;
 public class Draw extends JPanel {
 
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private final int taille_image = 50;
+     *
+     */
+    private static final long serialVersionUID = 1L;
+    private final int taille_image = 50;
     private final int taille_image2 = 100;
     protected Terrain terrain;
     protected Tank[] tank;
     protected Point[] pointTerrain;
-    private Missile[] tabMissile1=new Missile[3] ;
-    private Missile[] tabMissile2=new Missile[3] ;
+    private Missile[] tabMissile1 = new Missile[3];
+    private Missile[] tabMissile2 = new Missile[3];
 
     public Draw(Tank[] tank, int n, Terrain terrain, Missile[] tabMissile1, Missile[] tabMissile2) {
-        
-    	this.tank = new Tank[n];
+
+        this.tank = new Tank[n];
         this.terrain = terrain;
-        
-        for(int i=0; i<tabMissile1.length; i++){
-			this.tabMissile1[i] = tabMissile1[i];
-			this.tabMissile2[i] = tabMissile2[i];
-		}
+
+        for (int i = 0; i < tabMissile1.length; i++) {
+            this.tabMissile1[i] = tabMissile1[i];
+            this.tabMissile2[i] = tabMissile2[i];
+        }
         for (int i = 0; i < tank.length; i++) {
             this.tank[i] = tank[i];
         }
     }
 
     public void paintComponent(Graphics g) {
-    	g.setColor(Color.BLACK);
+        g.setColor(Color.BLACK);
         g.translate(0, 500);
-       drawTerrain(g, terrain.getTerrainX(), terrain.getTerrainY());
-       drawCiel(g, terrain.getCielX(), terrain.getCielY());
-       g.setColor(Color.WHITE);
-       drawTimer(g);
-       g.setColor(Color.gray);
-       tabMissile1[Fenetre.getSelectMissile()].drawTrajectoir(g, tabMissile1[Fenetre.getSelectMissile()].getPosition(), "rrr");
-       tabMissile2[Fenetre.getSelectMissile()].drawTrajectoir(g, tabMissile2[Fenetre.getSelectMissile()].getPosition(), "rrr");
-       tabMissile1[Fenetre.getSelectMissile()].drawExp(g, this);
-       tabMissile2[Fenetre.getSelectMissile()].drawExp(g, this);
-        
-        for (int i = 0; i < tank.length; i++) {
-            drawTank(g, tank[i].getPositionTankX(), tank[i].getPositionTankY(), tank[i]);
-        }
-        
-        if(Animation.getAltern()){
-        	tank[1].viewAtribu(g);
-        }else{
-        	tank[0].viewAtribu(g);
-        }
-        
-        tank[0].setTankVie(tabMissile2[Fenetre.getSelectMissile()], 30);
-        tank[1].setTankVie(tabMissile1[Fenetre.getSelectMissile()], 30);
-        
-        
-        g.setColor(Color.YELLOW);
-		g.fillOval(850, -550, 200, 200);
-    }
+        drawTerrain(g, terrain.getTerrainX(), terrain.getTerrainY());
+        drawCiel(g, terrain.getCielX(), terrain.getCielY());
+        if (tank[0].getTankVie() != 0 && tank[1].getTankVie() != 0) {
+            g.setColor(Color.WHITE);
+            drawTimer(g);
+            g.setColor(Color.gray);
+            tabMissile1[Fenetre.getSelectMissile()].drawTrajectoir(g, tabMissile1[Fenetre.getSelectMissile()].getPosition(), "rrr");
+            tabMissile2[Fenetre.getSelectMissile()].drawTrajectoir(g, tabMissile2[Fenetre.getSelectMissile()].getPosition(), "rrr");
+            tabMissile2[Fenetre.getSelectMissile()].drawExp(g, this);
+            tabMissile1[Fenetre.getSelectMissile()].drawExp(g, this);
+            for (int i = 0; i < tank.length; i++) {
+                drawTank(g, tank[i].getPositionTankX(), tank[i].getPositionTankY(), tank[i]);
+            }
 
-    
+            if (Animation.getAltern()) {
+                tank[1].viewAtribu(g);
+                tank[1].viewPower(g);
+            } else {
+                tank[0].viewAtribu(g);
+                tank[1].viewPower(g);
+            }
+
+            tank[0].setTankVie(tabMissile2[Fenetre.getSelectMissile()], 30);
+            tank[1].setTankVie(tabMissile1[Fenetre.getSelectMissile()], 30);
+
+            if (Missile.detection) {
+                g.setColor(Color.WHITE);
+                g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+                g.drawString("Tour du joueur 1", 442, -300);
+            } else if (Missile.detection2){
+                g.setColor(Color.WHITE);
+                g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+                g.drawString("Tour du joueur 2", 442, -300);
+            }
+
+            g.setColor(Color.YELLOW);
+            g.fillOval(850, -550, 200, 200);
+        } else if (tank[0].getTankVie() == 0) {
+            g.setColor(Color.WHITE);
+            g.setFont(new Font("TimesRoman", Font.PLAIN, 40));
+            g.drawString("Le joueur 1 a gagné", 300, -150);
+        } else if (tank[1].getTankVie() == 0) {
+            g.setColor(Color.WHITE);
+            g.setFont(new Font("TimesRoman", Font.PLAIN, 40));
+            g.drawString("Le joueur 2 a gagné", 300, -150);
+        }
+    }
 
     public void repainting() {
         repaint();
