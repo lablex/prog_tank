@@ -43,7 +43,7 @@ public class Animation extends Thread {
             this.tank1.setPositionCanonX();
             this.tank1.setPositionCanonY();
             this.tank1.setAngleTank();
-           // this.tank1.setAngleCanon(30,true);
+            this.tank1.setAngleCanon(30,true);
             
             this.tank2.setPointsTank();
             this.tank2.setPositionTankX();

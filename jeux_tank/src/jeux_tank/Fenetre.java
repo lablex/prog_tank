@@ -126,13 +126,13 @@ public class Fenetre extends JFrame implements KeyListener {
 		if (this.getEnter() == false) {
 		        if (c == KeyEvent.VK_S) {
 
-                tabJOUEUR[0].setAngleCanon(3.14 / 180, Animation.getAltern());
+                tabJOUEUR[0].setAngleCanon(-3.14 / 180, Animation.getAltern());
                 tabJOUEUR[1].setAngleCanon(3.14 / 180, !Animation.getAltern());
 
             }
             if (c == KeyEvent.VK_Z) {
 
-                tabJOUEUR[0].setAngleCanon(-3.14 / 180, Animation.getAltern());
+                tabJOUEUR[0].setAngleCanon(3.14 / 180, Animation.getAltern());
                 tabJOUEUR[1].setAngleCanon(-3.14 / 180, !Animation.getAltern());
             }
         }
