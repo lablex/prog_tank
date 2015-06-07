@@ -32,8 +32,8 @@ public class Tank {
     private double TPRIM = 1000;
     private double ecartXFEN = (int) (Terrain.getNbPoint() / TPRIM) * Terrain.getEcartX();
     private volatile int vie = 100;
-	volatile int nbVerticalMissile=10;
-	volatile int nbTriMissile=5;
+    volatile int nbVerticalMissile = 10;
+    volatile int nbTriMissile = 5;
 
     public Tank(String IMAGE_PATH_tank, String IMAGE_PATH_canon, int emplacement) {
         puissance = 0;
@@ -55,34 +55,33 @@ public class Tank {
 
     }
 
-    public void viewAtribu(Graphics g, int position){
-		g.setColor(Color.GREEN);
-		g.fillRect(position+40, -450, vie, 10);
-		g.setColor(Color.BLACK);
-		g.drawRect(position+40, -450, 100, 10);
-		
-		g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
-        g.drawString("vie", position+15, -440);
-        
+    public void viewAtribu(Graphics g, int position) {
+        g.setColor(Color.GREEN);
+        g.fillRect(position + 40, -450, vie, 10);
+        g.setColor(Color.BLACK);
+        g.drawRect(position + 40, -450, 100, 10);
+
         g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
-        g.drawString("obus = infini", position+15, -400);
-        
+        g.drawString("vie", position + 15, -440);
+
         g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
-        g.drawString("Tri Missile = "+nbTriMissile, position+15, -360);
-        
+        g.drawString("obus = infini", position + 15, -400);
+
         g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
-        g.drawString("Vertical Missile = "+nbVerticalMissile, position+15, -320);
-	}
-    
-    public void viewPower(Graphics g) {
+        g.drawString("Tri Missile = " + nbTriMissile, position + 15, -360);
+
+        g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+        g.drawString("Vertical Missile = " + nbVerticalMissile, position + 15, -320);
+    }
+
+    public static void viewPower(Graphics g) {
         g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
         g.drawString("Puissance", 465, -360);
-        puissance = (int) ((Missile.getV0() - 75)*1.5);
         g.setColor(Color.BLUE);
-        g.fillRect(455, -350,(int)( puissance), 10);
+        g.fillRect(455, -350, (int) ((Missile.getV0() - 75) * 1.5), 10);
 
         g.setColor(Color.BLACK);
-        g.drawRect(455, -350,(int)(75*1.5), 10);
+        g.drawRect(455, -350, (int) (75 * 1.5), 10);
     }
 
     public void setNbMissile() {
@@ -290,8 +289,8 @@ public class Tank {
     public double getTankPointDroitY() {
         return this.tankDroit.getPointY();
     }
-    
-    public int getTankVie(){
+
+    public int getTankVie() {
         return this.vie;
     }
 
