@@ -1,9 +1,14 @@
 package jeux_tank;
 
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.ImageObserver;
+import javax.swing.JFrame;
+import javax.swing.Timer;
 
-abstract class Missile {
+abstract class Missile extends JFrame {
 
     protected volatile double X0;
     protected volatile double Y0;
@@ -26,12 +31,13 @@ abstract class Missile {
     protected static int i = 1;
     protected double t = 0;
     protected boolean draw = false;
+    protected boolean drawExp;
     public static volatile boolean stop = false;
     public static boolean destruction = false;
    
 
     public static volatile boolean detection;
-    public static volatile boolean detection2;
+    public static volatile boolean detection2 = true;
 
     public Missile(Tank tank, String name) {
         V0 = 75;
@@ -122,7 +128,7 @@ abstract class Missile {
         }
 
         if (-Terrain.getTerrainY((int) getPositionX()) > getPositionY() || getPositionX() > 1000) {
-            
+
             running = false;
             stop = true;
             stopp = false;
@@ -135,14 +141,16 @@ abstract class Missile {
                 detection = false;
                 detection2 = true;
             }
-            
-            if(destruction){
+
+            if (destruction) {
                 Missile.setV0(75);
                 i = 0;
                 draw = false;
                 destruction = false;
             }
-        
+
+            Fenetre.missile = true;
+
         }
     }
 

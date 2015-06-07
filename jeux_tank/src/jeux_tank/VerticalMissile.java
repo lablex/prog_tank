@@ -37,14 +37,16 @@ public class VerticalMissile extends Missile {
             stopp = true;
         }
         hold = getPositionY();
-        System.out.println(hold);
+        //System.out.println(hold);
         if (-Terrain.getTerrainY((int) getPositionX()) > getPositionY() || getPositionX() > 1000) {
             Fenetre.setEnter(false);
             //Missile.setV0(75);
             drawExp = true;
             draw = false;
             pointImpact.setPointX((int) Terrain.getTerrainX((int) getPositionX()));
+            System.out.println((int) Terrain.getTerrainX((int) getPositionX()));
             pointImpact.setPointY((int) (Terrain.getTerrainY((int) getPositionX())));
+            System.out.println((int) (Terrain.getTerrainY((int) getPositionX())));
             if (destruction == false) {
                 Terrain.destructionTerrain(100, pointImpact, (int) getPositionX());
             destruction = true;
