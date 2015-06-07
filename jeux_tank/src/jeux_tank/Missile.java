@@ -28,6 +28,7 @@ abstract class Missile {
     protected boolean draw = false;
     public static volatile boolean stop = false;
     public static boolean destruction = false;
+   
 
     public static volatile boolean detection;
     public static volatile boolean detection2;
@@ -53,7 +54,7 @@ abstract class Missile {
         xNew = 0;
     }
 
-    public abstract void drawExp(Graphics g, ImageObserver a);
+    public abstract void drawExp(Graphics g, ImageObserver a, int with, int eight);
 
     public boolean getRunning() {
         return running;
@@ -108,6 +109,10 @@ abstract class Missile {
     public int getI() {
         return i;
     }
+    
+    public abstract boolean getDrawExp();
+
+    public abstract void setDrawExp(boolean drawExp);
 
     public void verification() {
         if (detection) {

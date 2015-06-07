@@ -54,25 +54,24 @@ public class Draw extends JPanel {
        g.setColor(Color.gray);
        tabMissile1[Fenetre.getSelectMissile()].drawTrajectoir(g, tabMissile1[Fenetre.getSelectMissile()].getPosition(), "rrr");
        tabMissile2[Fenetre.getSelectMissile()].drawTrajectoir(g, tabMissile2[Fenetre.getSelectMissile()].getPosition(), "rrr");
-       tabMissile1[Fenetre.getSelectMissile()].drawExp(g, this);
-       tabMissile2[Fenetre.getSelectMissile()].drawExp(g, this);
+       tabMissile1[Fenetre.getSelectMissile()].drawExp(g, this, Animation.getEight(), Animation.getWith());
+       tabMissile2[Fenetre.getSelectMissile()].drawExp(g, this, Animation.getEight(), Animation.getWith());
         
         for (int i = 0; i < tank.length; i++) {
             drawTank(g, tank[i].getPositionTankX(), tank[i].getPositionTankY(), tank[i]);
         }
+        g.setColor(Color.YELLOW);
+		g.fillOval(850, -550, 200, 200);
+        	tank[1].viewAtribu(g, 0);
         
-        if(Animation.getAltern()){
-        	tank[1].viewAtribu(g);
-        }else{
-        	tank[0].viewAtribu(g);
-        }
+        	tank[0].viewAtribu(g, 800);
+        
         
         tank[0].setTankVie(tabMissile2[Fenetre.getSelectMissile()], 30);
         tank[1].setTankVie(tabMissile1[Fenetre.getSelectMissile()], 30);
         
         
-        g.setColor(Color.YELLOW);
-		g.fillOval(850, -550, 200, 200);
+       
     }
 
     

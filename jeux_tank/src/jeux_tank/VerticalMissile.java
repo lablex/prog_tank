@@ -6,12 +6,11 @@ import java.awt.image.ImageObserver;
 
 public class VerticalMissile extends Missile {
 
-    private double hold = getPositionY() - 5;
+    private double hold = getPositionY() - 5000;
     private double xHold;
     private double yHold;
-    
+    protected volatile boolean drawExp;
     private volatile boolean test;
-    private boolean drawExp;
 
     public VerticalMissile(Tank tank, String name) {
         super(tank, name);
@@ -26,7 +25,7 @@ public class VerticalMissile extends Missile {
                 t = i * 0.005;
                 xHold = X0 + V0 * Math.cos(theta) * t;
                 pointPosition.setPointX(xHold);
-                yHold = +Y0 - 0.5 * g * Math.pow(t, 2) + V0 * Math.sin(theta) * t;
+                yHold = Y0 - 0.5 * g * Math.pow(t, 2) + V0 * Math.sin(theta) * t;
                 pointPosition.setPointY(yHold);
             } else {
                 pointPosition.setPointX(xHold);
@@ -34,10 +33,11 @@ public class VerticalMissile extends Missile {
                 pointPosition.setPointY(yHold);
             }
         }
-        if (hold >= getPositionY()) {
+        if (hold >= getPositionY() && i>10) {
             stopp = true;
         }
         hold = getPositionY();
+        System.out.println(hold);
         if (-Terrain.getTerrainY((int) getPositionX()) > getPositionY() || getPositionX() > 1000) {
             Fenetre.setEnter(false);
             //Missile.setV0(75);
@@ -62,10 +62,10 @@ public class VerticalMissile extends Missile {
 
     }
 
-    public void drawExp(Graphics g, ImageObserver a) {
+    public void drawExp(Graphics g, ImageObserver a, int with, int eight) {
 
         if (drawExp) {
-            Terrain.explosionAffiche(Terrain.getTerrainX((int) getPositionX()) - 50, Terrain.getTerrainY((int) getPositionX()) - 50, g, a);
+        	Terrain.explosionAffiche(Terrain.getTerrainX((int) getPositionX()) -with+20, Terrain.getTerrainY((int) getPositionX()) -eight+20, g, a,with, eight);
         }
     }
 
@@ -80,5 +80,13 @@ public class VerticalMissile extends Missile {
     public boolean getConditionImpacte() {
 
         return test;
+    }
+    
+    public boolean getDrawExp() {
+        return drawExp;
+    }
+
+    public void setDrawExp(boolean drawExp) {
+        this.drawExp = drawExp;
     }
 }

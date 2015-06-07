@@ -22,6 +22,8 @@ public class Animation extends Thread {
     public static boolean continu = false;
     public static boolean tir_missile2 = false;
     public static boolean tir_missile1 = false;
+    private static double with=0;
+    private static double eight=0;
 
     public Animation(Missile[] tabMissile1, Missile[] tabMissile2, Tank tank1, Tank tank2, JPanel pan) {
 
@@ -56,10 +58,9 @@ public class Animation extends Thread {
 
         while (true) {
             try {
-
+            	
                 count++;
-
-                if (count < 9000) {
+                if (count < 10000) {
                 } else {
                     if (altern) {
                         altern = false;
@@ -81,8 +82,10 @@ public class Animation extends Thread {
                     if (!Missile.detection && altern) {
                         Fenetre.setAvance(false);
                         tir_missile(tabMissile2, tank2);
+                        
                         continu = true;
                         count = 0;
+                        
                     } else if (Missile.detection && altern) {
                         Missile.setV0(75);
                         Fenetre.setTir(true);
@@ -103,6 +106,9 @@ public class Animation extends Thread {
                 } else if (altern && !tir_missile2) {
                     choix_missile2 = false;
                 }
+                
+                
+                
                 if (tir_missile1) {
                     if (!Missile.detection2 && !altern) {
                         Fenetre.setAvance(false);
@@ -128,16 +134,38 @@ public class Animation extends Thread {
                     choix_missile2 = true;
                 }
 
+                
+                
                 if (tir) {
                     if (!altern && !continu && choix_missile2 == true) {
                         Fenetre.setAvance(false);
                         //Fenetre.setSelectMissile();
                         tir_missile(tabMissile2, tank2);
+                        if(tabMissile2[Fenetre.getSelectMissile()].getDrawExp()){
+                        	with=with+0.15;
+                            eight=eight+0.15;
+                            if(with>75 || eight>75){
+                            	tabMissile2[Fenetre.getSelectMissile()].setDrawExp(false);
+                            	with=0;
+                                eight=0;
+                                count=100000;
+                            }
+                        }
                         tir_missile2 = true;
                     } else if (altern && !continu && choix_missile2 == false) {
                         Fenetre.setAvance(false);
                         //Fenetre.setSelectMissile();
                         tir_missile(tabMissile1, tank1);
+                        if(tabMissile1[Fenetre.getSelectMissile()].getDrawExp()){
+                            with=with+0.15;
+                            eight=eight+0.15;
+                            if(with>75 || eight>75){
+                            	tabMissile1[Fenetre.getSelectMissile()].setDrawExp(false);
+                            	with=0;
+                                eight=0;
+                                count=100000;
+                            }
+                        }
                         tir_missile1 = true;
                     }
                 } else if (avance) {
@@ -174,6 +202,18 @@ public class Animation extends Thread {
 
     public boolean getTir() {
         return tir;
+    }
+    
+    public static int getWith() {
+        return (int)with;
+    }
+    
+    public static void setCount() {
+        count=1000000;
+    }
+    
+    public static int getEight() {
+        return (int)eight;
     }
 
     public void setAvance(boolean avance) {

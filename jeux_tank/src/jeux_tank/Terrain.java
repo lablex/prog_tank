@@ -113,8 +113,8 @@ public class Terrain {
 				}
 	}
 	
-	public static void explosionAffiche(int x, int y, Graphics g, ImageObserver a) {
-		g.drawImage(immExp, x, y, 75, 75, a);
+	public static void explosionAffiche(int x, int y, Graphics g, ImageObserver a, int with, int eight) {
+		g.drawImage(immExp, x, y, with, eight, a);
 	}
 
 	public static int getTerrainX(int i) {

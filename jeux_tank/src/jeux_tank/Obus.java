@@ -6,8 +6,9 @@ import java.awt.image.ImageObserver;
 
 public class Obus extends Missile {
 
-    private boolean drawExp;
+    
     private volatile boolean test;
+    protected volatile boolean drawExp;
 
     public Obus(Tank tank, String name) {
         super(tank, name);
@@ -66,11 +67,19 @@ public class Obus extends Missile {
         return test;
     }
 
-    public void drawExp(Graphics g, ImageObserver a) {
+    public void drawExp(Graphics g, ImageObserver a, int with, int eight) {
 
         if (drawExp) {
-            Terrain.explosionAffiche(Terrain.getTerrainX((int) getPositionX()) - 50, Terrain.getTerrainY((int) getPositionX()) - 50, g, a);
+            Terrain.explosionAffiche(Terrain.getTerrainX((int) getPositionX()) -with+20, Terrain.getTerrainY((int) getPositionX()) -eight+20, g, a,with, eight);
         }
+    }
+
+    public boolean getDrawExp() {
+        return drawExp;
+    }
+
+    public void setDrawExp(boolean drawExp) {
+        this.drawExp = drawExp;
     }
 
 }

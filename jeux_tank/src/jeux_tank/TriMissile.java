@@ -15,7 +15,7 @@ public class TriMissile extends Missile {
     private Point pHold = new Point(0, 0);
     private double angleMissile;
     private volatile boolean test;
-    private boolean drawExp;
+    protected volatile boolean drawExp;
 
     public TriMissile(Tank tank, String name) {
         super(tank, name);
@@ -79,10 +79,10 @@ public class TriMissile extends Missile {
         }
     }
 
-    public void drawExp(Graphics g, ImageObserver a) {
+    public void drawExp(Graphics g, ImageObserver a, int with, int eight) {
 
         if (drawExp) {
-            Terrain.explosionAffiche(Terrain.getTerrainX((int) getPositionX()) - 50, Terrain.getTerrainY((int) getPositionX()) - 50, g, a);
+        	Terrain.explosionAffiche(Terrain.getTerrainX((int) getPositionX()) -with+20, Terrain.getTerrainY((int) getPositionX()) -eight+20, g, a,with, eight);
         }
     }
 
@@ -97,6 +97,14 @@ public class TriMissile extends Missile {
     public boolean getConditionImpacte() {
 
         return test;
+    }
+    
+    public boolean getDrawExp() {
+        return drawExp;
+    }
+
+    public void setDrawExp(boolean drawExp) {
+        this.drawExp = drawExp;
     }
 
 }

@@ -83,6 +83,7 @@ public class Fenetre extends JFrame implements KeyListener {
                 }
                 avance = false;
                 anim.setAvance(false);
+               // Animation.setCount();
             }
         }
 
@@ -91,15 +92,33 @@ public class Fenetre extends JFrame implements KeyListener {
 
         }
 
-        if (c == KeyEvent.VK_NUMPAD1) {
-            selectMissile = 1;
-            triMissileMissile = true;
-        }
-
-        if (c == KeyEvent.VK_NUMPAD2) {
-            selectMissile = 2;
-            verticalMissile = true;
-        }
+	        if (c == KeyEvent.VK_NUMPAD1) {
+	        	if(tabJOUEUR[0].nbTriMissile>0 && Animation.getAltern()){	
+	            selectMissile = 1;
+	            triMissileMissile = true;
+	        	}else if(tabJOUEUR[1].nbTriMissile>0 && !Animation.getAltern()){
+		            selectMissile = 1;
+		            triMissileMissile = true;
+		        }else{
+	        		selectMissile = 0;
+	        	}
+	        }
+        
+	        if (c == KeyEvent.VK_NUMPAD2) {
+	        	if(tabJOUEUR[0].nbVerticalMissile>0 && Animation.getAltern()){
+	        	selectMissile = 2;
+	            verticalMissile = true;
+	        	}
+	        	
+	        	else if(tabJOUEUR[1].nbVerticalMissile>0 && !Animation.getAltern()){
+		        	selectMissile = 2;
+		            verticalMissile = true;
+		        	}else{
+		        		selectMissile = 0;
+		        	}
+	        }
+        
+        
 if (this.getEnter() == false) {
         if (c == KeyEvent.VK_S) {
 
